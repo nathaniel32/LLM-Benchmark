@@ -1,9 +1,11 @@
 import { prompt_bot } from './bot.js';
+import { get_all_category } from './api.js';
 import config from './config.js';
 
 new Vue({
     el: '#app',
     data: {
+        v_categories: {select: 0, option:[{c_category:"category", c_id: "0"}]},
         v_info:"",
         v_rule:"",
         v_url:"",
@@ -13,11 +15,13 @@ new Vue({
         v_responses:[]
     },
     methods:{
-        f_init(){
+        async f_init(){
             this.v_rule = config.bot_rules;
             this.v_url = config.bot_url;
             this.v_temperature = config.bot_temperature;
             this.v_models = config.bot_model.map(item => ({ value: item }));
+            const new_categories = await get_all_category();
+            this.v_categories.option.push(...new_categories);
         },
         f_clear_info(duration){
             setTimeout(()=>{

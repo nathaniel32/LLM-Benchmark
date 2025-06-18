@@ -20,6 +20,11 @@
                 <span>{{ model.value }}</span>
             </div>
             <input type="text" v-model="v_content" @change="f_prompt">
+            <select v-model="v_categories.select">
+                <option v-for="category in v_categories.option" :key="category.c_id" :value="category.c_id">
+                    {{ category.c_category }}
+                </option>
+            </select>
         </div>
         <!-- right section -->
         <div> <!-- max 100vh-->
