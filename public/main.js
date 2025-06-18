@@ -4,6 +4,7 @@ import config from './config.js';
 new Vue({
     el: '#app',
     data: {
+        v_info:"",
         v_rule:"",
         v_url:"",
         v_temperature:"",
@@ -18,8 +19,15 @@ new Vue({
             this.v_temperature = config.bot_temperature;
             this.v_models = config.bot_model.map(item => ({ value: item }));
         },
-        f_prompt(){
-            this.v_models.forEach(async model => {
+        f_clear_info(duration){
+            setTimeout(()=>{
+                this.v_info = "";
+            }, duration);
+        },
+        async f_prompt(){
+            this.v_info = "prompt...";
+            this.v_responses = [];
+            const promises = this.v_models.map(async model => {
                 const messages = [
                     {
                         role: "system",
@@ -29,13 +37,25 @@ new Vue({
                         role: "user",
                         content: this.v_content
                     }
-                ]
+                ];
                 const response = await prompt_bot(this.v_url, this.v_temperature, model.value, messages);
-                this.v_responses.push({think:marked.parse(response.think), final:marked.parse(response.final), total_duration:response.total_duration});
+                return {
+                    think: marked.parse(response.think),
+                    final: marked.parse(response.final),
+                    total_duration: response.total_duration
+                };
             });
+
+            const results = await Promise.all(promises);
+            this.v_responses.push(...results);
+            this.f_clear_info(0);
         },
         f_upload_data(){
-            console.log("ok");
+            this.v_info = "uploading...";
+            this.v_responses.forEach(response => {
+                console.log(response);
+            });
+            this.f_clear_info(10000);
         }
     },
     created() {

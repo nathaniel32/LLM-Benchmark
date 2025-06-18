@@ -9,6 +9,7 @@
 </head>
 <body>
     <div id="app">
+        <div>{{ v_info }}</div>
         <div> <!-- left section -->
             <input v-model="v_url" placeholder="URL">
             <input type="range" v-model.number="v_temperature" min="0" max="2" step="0.1">
@@ -21,16 +22,18 @@
             <input type="text" v-model="v_content" @change="f_prompt">
         </div>
         <!-- right section -->
-        <div v-for="response in v_responses"> <!-- grid 3 -->
-            <div v-html="response.total_duration"></div>
-            thinking
-            <div v-html="response.think"></div> <!--must be able to be shortened, not shown all, press it and then it will be shown-->
-            <hr>
-            <div v-html="response.final"></div>
-            <input type="number" v-model.number="response.scores" min="1" max="5">
-            {{response.scores}}
+        <div> <!-- max 100vh-->
+            <div v-for="response in v_responses"> <!-- grid 3 overflow--> 
+                <div v-html="response.total_duration"></div>
+                thinking
+                <div v-html="response.think"></div> <!--must be able to be shortened, not shown all, press it and then it will be shown-->
+                <hr>
+                <div v-html="response.final"></div>
+                <input type="number" v-model.number="response.scores" min="1" max="5">
+                {{response.scores}}
+            </div>
+            <button @click="f_upload_data" :disabled="v_responses.length === 0">Upload</button>
         </div>
-        <button @click="f_upload_data">Submit</button>
     </div>
     <script src="main.js" type="module"></script>
 </body>
