@@ -5,9 +5,9 @@ const options = {
   definition: {
     openapi: '3.0.0',
     info: {
-      title: 'API Saya',
+      title: 'My API',
       version: '1.0.0',
-      description: 'Dokumentasi API dengan Swagger UI',
+      description: 'Documentation Swagger UI',
     },
     servers: [
       {
@@ -15,7 +15,7 @@ const options = {
       },
     ],
   },
-  apis: ['./main.js'], // path ke file yang berisi komentar swagger
+  apis: ['./routes/*.js'],
 };
 
 const specs = swaggerJsdoc(options);
