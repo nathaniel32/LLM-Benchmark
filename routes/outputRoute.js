@@ -1,87 +1,18 @@
-const express = require('express');
-const router = express.Router();
-const userController = require('../controllers/userController');
-
+const outputController = require('../controllers/outputController');
+const router = require('../utils/expressUtil');
 /**
  * @swagger
  * tags:
- *   name: Users
- *   description: User API
+ *   name: Output
+ *   description: Output API
  */
 
 /**
  * @swagger
- * /users:
- *   post:
- *     summary: Create a new user
- *     tags: [Users]
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             required:
- *               - name
- *               - email
- *             properties:
- *               name:
- *                 type: string
- *                 example: John Doe
- *               email:
- *                 type: string
- *                 format: email
- *                 example: john@example.com
- *     responses:
- *       200:
- *         description: User added successfully
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 message:
- *                   type: string
- *                 id:
- *                   type: integer
- */
-router.post('/users', userController.createUser);
-
-/**
- * @swagger
- * /users:
- *   get:
- *     summary: Get all users
- *     tags: [Users]
- *     responses:
- *       200:
- *         description: List of users retrieved successfully
- *         content:
- *           application/json:
- *             schema:
- *               type: array
- *               items:
- *                 type: object
- *                 properties:
- *                   id:
- *                     type: integer
- *                     example: 1
- *                   name:
- *                     type: string
- *                     example: John Doe
- *                   email:
- *                     type: string
- *                     format: email
- *                     example: john@example.com
- */
-router.get('/users', userController.getAllUsers);
-
-/**
- * @swagger
- * /users/{id}:
+ * /output/{id}:
  *   get:
  *     summary: Get user by ID
- *     tags: [Users]
+ *     tags: [Output]
  *     parameters:
  *       - in: path
  *         name: id
@@ -110,14 +41,14 @@ router.get('/users', userController.getAllUsers);
  *       404:
  *         description: User not found
  */
-router.get('/users/:id', userController.getUserById);
+router.get('/output/:id', outputController.get_output);
 
 /**
  * @swagger
- * /users/{id}:
+ * /output/{id}:
  *   put:
  *     summary: Update user by ID
- *     tags: [Users]
+ *     tags: [Output]
  *     parameters:
  *       - in: path
  *         name: id
@@ -152,14 +83,14 @@ router.get('/users/:id', userController.getUserById);
  *       404:
  *         description: User not found
  */
-router.put('/users/:id', userController.updateUser);
+router.put('/output/:id', outputController.update_output);
 
 /**
  * @swagger
- * /users/{id}:
+ * /output/{id}:
  *   delete:
  *     summary: Delete user by ID
- *     tags: [Users]
+ *     tags: [Output]
  *     parameters:
  *       - in: path
  *         name: id
@@ -180,6 +111,6 @@ router.put('/users/:id', userController.updateUser);
  *       404:
  *         description: User not found
  */
-router.delete('/users/:id', userController.deleteUser);
+router.delete('/output/:id', outputController.delete_output);
 
 module.exports = router;
