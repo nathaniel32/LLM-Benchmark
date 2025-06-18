@@ -1,0 +1,3 @@
+npm install sqlite3
+npm install express
+npm install swagger-ui-express swagger-jsdoc

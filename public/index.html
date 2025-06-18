@@ -3,47 +3,299 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <title>AI Workbench</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
     <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        ::-webkit-scrollbar {
+            width: 7px;
+            height: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background-color: hsla(246, 73%, 59%, 0.544);
+            border-radius: .25rem;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background-color: hsl(246, 39%, 62%);
+        }
+
+        ::-webkit-scrollbar-track {
+            background-color: transparent;
+            border-radius: .25rem;
+        }
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .gradient-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .thinking-collapsed {
+            max-height: 60px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .thinking-collapsed::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 30px;
+            background: linear-gradient(transparent, rgba(31, 41, 55, 0.9));
+        }
+        
+        .score-input::-webkit-outer-spin-button,
+        .score-input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+        
+        .pulse-border {
+            animation: pulse-border 2s infinite;
+        }
+        
+        @keyframes pulse-border {
+            0%, 100% { border-color: rgba(99, 102, 241, 0.4); }
+            50% { border-color: rgba(99, 102, 241, 0.8); }
+        }
+        
+        .response-card {
+            transition: all 0.3s ease;
+        }
+        
+        .response-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+    </style>
 </head>
-<body>
-    <div id="app">
-        <div>{{ v_info }}</div>
-        <div> <!-- left section -->
-            <div v-for="model in v_models">
-                <!-- <input v-model="model.value"> -->
-                <span>{{ model.c_model }}</span>
+<body class="gradient-bg min-h-screen">
+    <div id="app" class="flex h-screen">
+        <!-- Left Panel - Control Panel -->
+        <div class="w-1/3 p-6 glass-effect m-4 rounded-2xl shadow-2xl overflow-y-auto">
+            <div class="mb-8">
+                <h1 class="text-2xl font-bold text-white mb-2 flex items-center">
+                    <i class="fas fa-robot mr-3 text-purple-300"></i>
+                    AI Workbench
+                </h1>
+                <div class="text-purple-200 text-sm font-medium px-3 py-2 bg-purple-500/20 rounded-lg">
+                    {{ v_info || 'Ready to process your requests' }}
+                </div>
             </div>
-            <input v-model="v_url" placeholder="URL" :disabled="v_responses.length !== 0">
-            <input type="range" v-model.number="v_temperature" min="0" max="2" step="0.1" :disabled="v_responses.length !== 0">
-            <span>{{ v_temperature }}</span>
-            <input type="text" v-model="v_rule" :disabled="v_responses.length !== 0">
-            <input type="text" v-model="v_content" :disabled="v_responses.length !== 0">
-            <input type="text" v-model.number="v_note" :disabled="v_responses.length !== 0">
-            <select v-model="v_categories.select" :disabled="v_responses.length !== 0">
-                <option v-for="category in v_categories.option" :key="category.c_id" :value="category.c_id">
-                    {{ category.c_category }}
-                </option>
-            </select>
-            <button @click="f_prompt" :disabled="v_responses.length !== 0">Submit</button>
+
+            <!-- Model Selection -->
+            <div class="mb-6">
+                <label class="block text-white font-semibold mb-3">
+                    <i class="fas fa-brain mr-2"></i>Model Selection
+                </label>
+                <div class="space-y-2">
+                    <div v-for="model in v_models" :key="model.c_id" 
+                         class="flex items-center p-3 bg-white/10 rounded-lg hover:bg-white/20 transition-colors">
+                        <input type="radio" :value="model.c_id" v-model="v_selected_model" 
+                               class="mr-3 text-purple-500 focus:ring-purple-500">
+                        <span class="text-white font-medium">{{ model.c_model }}</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Configuration -->
+            <div class="space-y-6">
+                <div>
+                    <label class="block text-white font-semibold mb-2">
+                        <i class="fas fa-link mr-2"></i>API Endpoint
+                    </label>
+                    <input v-model="v_url" 
+                           placeholder="Enter API URL"
+                           :disabled="v_responses.length !== 0"
+                           class="w-full p-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/60 focus:border-purple-400 focus:ring-2 focus:ring-purple-400/50 disabled:opacity-50 disabled:cursor-not-allowed">
+                </div>
+
+                <div>
+                    <label class="block text-white font-semibold mb-2">
+                        <i class="fas fa-thermometer-half mr-2"></i>Temperature: {{ v_temperature }}
+                    </label>
+                    <div class="relative">
+                        <input type="range" 
+                               v-model.number="v_temperature" 
+                               min="0" max="2" step="0.1"
+                               :disabled="v_responses.length !== 0"
+                               class="w-full h-2 bg-white/20 rounded-lg appearance-none cursor-pointer slider">
+                        <div class="flex justify-between text-xs text-white/60 mt-1">
+                            <span>Conservative</span>
+                            <span>Creative</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-white font-semibold mb-2">
+                        <i class="fas fa-gavel mr-2"></i>System Rule
+                    </label>
+                    <textarea v-model="v_rule" 
+                              placeholder="Enter system rules or instructions"
+                              :disabled="v_responses.length !== 0"
+                              class="w-full p-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/60 focus:border-purple-400 focus:ring-2 focus:ring-purple-400/50 disabled:opacity-50 resize-none h-24"></textarea>
+                </div>
+
+                <div>
+                    <label class="block text-white font-semibold mb-2">
+                        <i class="fas fa-edit mr-2"></i>Content/Prompt
+                    </label>
+                    <textarea v-model="v_content" 
+                              placeholder="Enter your prompt or content"
+                              :disabled="v_responses.length !== 0"
+                              class="w-full p-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/60 focus:border-purple-400 focus:ring-2 focus:ring-purple-400/50 disabled:opacity-50 resize-none h-32"></textarea>
+                </div>
+
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-white font-semibold mb-2">
+                            <i class="fas fa-sticky-note mr-2"></i>Note
+                        </label>
+                        <input type="text" 
+                               v-model="v_note"
+                               :disabled="v_responses.length !== 0"
+                               class="w-full p-3 bg-white/10 border border-white/20 rounded-lg text-white focus:border-purple-400 focus:ring-2 focus:ring-purple-400/50 disabled:opacity-50">
+                    </div>
+
+                    <div>
+                        <label class="block text-white font-semibold mb-2">
+                            <i class="fas fa-tags mr-2"></i>Category
+                        </label>
+                        <select v-model="v_categories.select" 
+                                :disabled="v_responses.length !== 0"
+                                class="w-full p-3 bg-white/10 border border-white/20 rounded-lg text-white focus:border-purple-400 focus:ring-2 focus:ring-purple-400/50 disabled:opacity-50">
+                            <option value="" class="bg-gray-800">Select Category</option>
+                            <option v-for="category in v_categories.option" 
+                                    :key="category.c_id" 
+                                    :value="category.c_id"
+                                    class="bg-gray-800">
+                                {{ category.c_category }}
+                            </option>
+                        </select>
+                    </div>
+                </div>
+
+                <button @click="f_prompt" 
+                        :disabled="v_responses.length !== 0 || v_processing"
+                        class="w-full py-4 bg-gradient-to-r from-purple-500 to-pink-500 text-white font-bold rounded-lg hover:from-purple-600 hover:to-pink-600 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105">
+                    <i class="fas fa-paper-plane mr-2"></i>
+                    {{ v_processing ? 'Processing...' : 'Submit Request' }}
+                </button>
+            </div>
         </div>
-        <!-- right section -->
-        <div> <!-- max 100vh-->
-            <div v-for="response in v_responses"> <!-- grid 3 overflow--> 
-                <div v-html="response.total_duration"></div>
-                thinking
-                <div v-html="f_render_markdown(response.think)"></div> <!--must be able to be shortened, not shown all, press it and then it will be shown-->
-                <hr>
-                <div v-html="f_render_markdown(response.final)"></div>
-                <input type="number" v-model.number="response.score" min="1" max="5">
-                <input type="text" v-model.number="response.note">
-                {{response.score}}
+
+        <!-- Right Panel - Results -->
+        <div class="flex-1 p-6 overflow-y-auto">
+            <div class="mb-6 flex items-center justify-between">
+                <h2 class="text-xl font-bold text-white">
+                    <i class="fas fa-chart-line mr-2"></i>
+                    Results ({{ v_responses.length }})
+                </h2>
+                <div class="space-x-3" v-if="v_responses.length > 0">
+                    <button @click="f_upload_data" 
+                            class="px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors shadow-lg">
+                        <i class="fas fa-upload mr-2"></i>Upload Data
+                    </button>
+                    <button @click="f_cancel_upload_data" 
+                            class="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors shadow-lg">
+                        <i class="fas fa-times mr-2"></i>Cancel
+                    </button>
+                </div>
             </div>
-            <button @click="f_upload_data" :disabled="v_responses.length === 0">Upload</button>
-            <button @click="f_cancel_upload_data" :disabled="v_responses.length === 0">Cancel</button>
+
+            <div v-if="v_responses.length === 0" 
+                 class="text-center text-white/60 py-20">
+                <i class="fas fa-robot text-6xl mb-4 opacity-50"></i>
+                <p class="text-xl">No responses yet</p>
+                <p>Submit a request to see results here</p>
+            </div>
+
+            <div class="grid gap-6">
+                <div v-for="(response, index) in v_responses" 
+                     :key="index"
+                     class="response-card glass-effect rounded-2xl p-6 shadow-xl">
+                    
+                    <!-- Header -->
+                    <div class="flex items-center justify-between mb-4 pb-4 border-b border-white/20">
+                        <div class="flex items-center space-x-3">
+                            <div class="w-8 h-8 bg-purple-500 rounded-full flex items-center justify-center text-white font-bold">
+                                {{ index + 1 }}
+                            </div>
+                            <div>
+                                <h3 class="text-white font-semibold">Response #{{ index + 1 }}</h3>
+                                <div class="text-purple-200 text-sm">
+                                    <i class="fas fa-clock mr-1"></i>
+                                    Duration: {{ response.total_duration || 'N/A' }}
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Score Input -->
+                        <div class="flex items-center space-x-3">
+                            <div class="flex items-center space-x-2">
+                                <i class="fas fa-star text-yellow-400"></i>
+                                <input type="number" 
+                                       v-model.number="response.score" 
+                                       min="1" max="5"
+                                       class="score-input w-16 p-2 bg-white/10 border border-white/20 rounded-lg text-white text-center focus:border-yellow-400 focus:ring-2 focus:ring-yellow-400/50">
+                                <span class="text-white/60 text-sm">/5</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Thinking Section -->
+                    <div class="mb-6">
+                        <div class="flex items-center justify-between mb-3">
+                            <h4 class="text-purple-300 font-semibold flex items-center">
+                                <i class="fas fa-brain mr-2"></i>Thinking Process
+                            </h4>
+                            <button @click="response.showFullThinking = !response.showFullThinking"
+                                    class="text-purple-300 hover:text-purple-100 transition-colors">
+                                <i :class="response.showFullThinking ? 'fas fa-chevron-up' : 'fas fa-chevron-down'"></i>
+                            </button>
+                        </div>
+                        <div :class="response.showFullThinking ? '' : 'thinking-collapsed'"
+                             class="bg-black/20 rounded-lg p-4">
+                            <div v-html="f_render_markdown(response.think || 'No thinking process available')" 
+                                 class="text-white/80 prose prose-invert max-w-none"></div>
+                        </div>
+                    </div>
+
+                    <!-- Final Response -->
+                    <div class="mb-4">
+                        <h4 class="text-green-300 font-semibold mb-3 flex items-center">
+                            <i class="fas fa-check-circle mr-2"></i>Final Response
+                        </h4>
+                        <div class="bg-black/20 rounded-lg p-4">
+                            <div v-html="f_render_markdown(response.final || 'No final response available')" 
+                                 class="text-white prose prose-invert max-w-none"></div>
+                        </div>
+                    </div>
+
+                    <!-- Notes -->
+                    <div>
+                        <label class="block text-white font-semibold mb-2">
+                            <i class="fas fa-comment mr-2"></i>Notes
+                        </label>
+                        <input type="text" 
+                               v-model="response.note"
+                               placeholder="Add your notes about this response..."
+                               class="w-full p-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/60 focus:border-blue-400 focus:ring-2 focus:ring-blue-400/50">
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
     <script src="main.js" type="module"></script>
