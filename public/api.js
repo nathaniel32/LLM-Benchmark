@@ -30,7 +30,7 @@ export async function api_get_all_models() {
     }
 }
 
-export async function api_create_input(c_input, t_category_id) {
+export async function api_create_input(c_input, c_note, t_category_id) {
     //console.log("=======================================");
     //console.log(c_input);
     //console.log(t_category_id);
@@ -43,6 +43,7 @@ export async function api_create_input(c_input, t_category_id) {
             },
             body: JSON.stringify({
                 c_input,
+                c_note,
                 t_category_id
             })
         });
@@ -57,17 +58,21 @@ export async function api_create_input(c_input, t_category_id) {
     }
 }
 
-export async function api_create_output(c_output, c_total_duration, c_token, c_score, c_note, c_source, t_input_id, t_model_id) {
-    //console.log("=======================================");
-    //console.log(c_output);
-    //console.log(c_total_duration);
-    //console.log(c_token);
-    //console.log(c_score);
-    //console.log(c_note);
-    //console.log(c_source);
-    //console.log(t_input_id);
-    //console.log(t_model_id);
-    //console.log("=======================================");
+export async function api_create_output(c_output_think, c_output_final, c_total_duration, c_load_duration, c_prompt_eval_count, c_prompt_eval_duration, c_eval_count, c_eval_duration, c_score, c_note, t_input_id, t_model_id) {
+    console.log("=======================================");
+    console.log(c_output_think);
+    console.log(c_output_final);
+    console.log(c_total_duration);
+    console.log(c_load_duration);
+    console.log(c_prompt_eval_count);
+    console.log(c_prompt_eval_duration);
+    console.log(c_eval_count);
+    console.log(c_eval_duration);
+    console.log(c_score);
+    console.log(c_note);
+    console.log(t_input_id);
+    console.log(t_model_id);
+    console.log("=======================================");
     try {
         const response = await fetch("./output", {
             method: 'POST',
@@ -75,12 +80,16 @@ export async function api_create_output(c_output, c_total_duration, c_token, c_s
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                c_output,
+                c_output_think,
+                c_output_final,
                 c_total_duration,
-                c_token,
+                c_load_duration,
+                c_prompt_eval_count,
+                c_prompt_eval_duration,
+                c_eval_count,
+                c_eval_duration,
                 c_score,
                 c_note,
-                c_source,
                 t_input_id,
                 t_model_id
             })

@@ -24,7 +24,7 @@ const router = require('../utils/expressUtil');
  *             properties:
  *               c_model:
  *                 type: string
- *                 example: llama3.1
+ *                 example: llama3.2
  *     responses:
  *       200:
  *         description: model added successfully

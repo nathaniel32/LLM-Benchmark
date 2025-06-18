@@ -20,6 +20,7 @@
             <span>{{ v_temperature }}</span>
             <input type="text" v-model="v_rule" :disabled="v_responses.length !== 0">
             <input type="text" v-model="v_content" :disabled="v_responses.length !== 0">
+            <input type="text" v-model.number="v_note" :disabled="v_responses.length !== 0">
             <select v-model="v_categories.select" :disabled="v_responses.length !== 0">
                 <option v-for="category in v_categories.option" :key="category.c_id" :value="category.c_id">
                     {{ category.c_category }}
@@ -32,10 +33,11 @@
             <div v-for="response in v_responses"> <!-- grid 3 overflow--> 
                 <div v-html="response.total_duration"></div>
                 thinking
-                <div v-html="response.think"></div> <!--must be able to be shortened, not shown all, press it and then it will be shown-->
+                <div v-html="f_render_markdown(response.think)"></div> <!--must be able to be shortened, not shown all, press it and then it will be shown-->
                 <hr>
-                <div v-html="response.final"></div>
+                <div v-html="f_render_markdown(response.final)"></div>
                 <input type="number" v-model.number="response.score" min="1" max="5">
+                <input type="text" v-model.number="response.note">
                 {{response.score}}
             </div>
             <button @click="f_upload_data" :disabled="v_responses.length === 0">Upload</button>

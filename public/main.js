@@ -1,6 +1,5 @@
 import { prompt_bot } from './bot.js';
 import { api_get_all_categories, api_get_all_models, api_create_input, api_create_output } from './api.js';
-import { html_to_text } from './utils.js';
 import config from './config.js';
 
 new Vue({
@@ -13,6 +12,7 @@ new Vue({
         v_temperature:"",
         v_models:[],
         v_content: "",
+        v_note: "",
         v_responses:[]
     },
     methods:{
@@ -56,9 +56,14 @@ new Vue({
                 const response = await prompt_bot(this.v_url, this.v_temperature, model.c_model, messages);
                 return {
                     model: model.c_id,
-                    think: marked.parse(response.think),
-                    final: marked.parse(response.final),
-                    total_duration: response.total_duration
+                    think: response.think,
+                    final: response.final,
+                    total_duration: response.total_duration,
+                    load_duration: response.load_duration,
+                    prompt_eval_count: response.prompt_eval_count,
+                    prompt_eval_duration: response.prompt_eval_duration,
+                    eval_count: response.eval_count,
+                    eval_duration: response.eval_duration
                 };
             });
 
@@ -76,7 +81,7 @@ new Vue({
                 }
             }
 
-            const input_res = await api_create_input(this.v_content, this.v_categories.select);
+            const input_res = await api_create_input(this.v_content, this.v_note, this.v_categories.select);
             
             if (!input_res.id){
                 this.v_info = input_res;
@@ -87,11 +92,12 @@ new Vue({
 
             const res_output = [];
             for (const response of this.v_responses) {
-                res_output.push(await api_create_output(html_to_text(response.final), response.total_duration, 100, response.score, "ok", "google.com", input_res.id, response.model));
+                response.think = response.think === '' ? null : response.think;
+                res_output.push(await api_create_output(response.think, response.final, response.total_duration, response.load_duration, response.prompt_eval_count, response.prompt_eval_duration, response.eval_count, response.eval_duration, response.score, response.note, input_res.id, response.model));
             };
 
             this.v_info = JSON.stringify(res_output, null, 2);
-            this.f_clear_info(1000);
+            this.f_clear_info(10000);
             this.v_content = "";
             this.v_responses = [];
         },
@@ -100,6 +106,9 @@ new Vue({
             this.f_clear_info(1000);
             this.v_content = "";
             this.v_responses = [];
+        },
+        f_render_markdown(text) {
+            return marked.parse(text);
         }
     },
     created() {

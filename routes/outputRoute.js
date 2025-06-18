@@ -20,21 +20,35 @@ const router = require('../utils/expressUtil');
  *           schema:
  *             type: object
  *             required:
- *               - c_output
+ *               - c_output_final
  *               - c_total_duration
  *               - c_score
  *               - t_input_id
  *               - t_model_id
  *             properties:
- *               c_output:
+ *               c_output_think:
+ *                 type: string
+ *               c_output_final:
  *                 type: string
  *                 example: "1 + 1 = 2"
  *               c_total_duration:
  *                 type: integer
  *                 example: 100
- *               c_token:
+ *               c_load_duration:
  *                 type: integer
- *                 example: 50
+ *                 example: 15
+ *               c_prompt_eval_count:
+ *                 type: integer
+ *                 example: 10
+ *               c_prompt_eval_duration:
+ *                 type: integer
+ *                 example: 40
+ *               c_eval_count:
+ *                 type: integer
+ *                 example: 5
+ *               c_eval_duration:
+ *                 type: integer
+ *                 example: 45
  *               c_score:
  *                 type: number
  *                 format: float
@@ -42,9 +56,6 @@ const router = require('../utils/expressUtil');
  *               c_note:
  *                 type: string
  *                 example: "good job"
- *               c_source:
- *                 type: string
- *                 example: "google.com"
  *               t_input_id:
  *                 type: integer
  *                 example: 1
@@ -65,136 +76,6 @@ const router = require('../utils/expressUtil');
  *                   type: integer
  */
 router.post('/output', outputController.create_output);
-
-/**
- * @swagger
- * /output/{c_id}:
- *   get:
- *     summary: Get output by ID
- *     tags: [Output]
- *     parameters:
- *       - in: path
- *         name: c_id
- *         schema:
- *           type: integer
- *         required: true
- *         description: Output ID
- *     responses:
- *       200:
- *         description: Output found
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 c_id:
- *                   type: integer
- *                   example: 1
- *                 c_output:
- *                   type: string
- *                   example: "1 + 1 = 2"
- *                 c_total_duration:
- *                   type: integer
- *                   example: 100
- *                 c_token:
- *                   type: integer
- *                   example: 50
- *                 c_score:
- *                   type: number
- *                   format: float
- *                   example: 1.2
- *                 c_note:
- *                   type: string
- *                   example: "good job"
- *                 c_source:
- *                   type: string
- *                   example: "google.com"
- *                 t_input_id:
- *                   type: integer
- *                   example: 1
- *                 t_model_id:
- *                   type: integer
- *                   example: 1
- *       404:
- *         description: Output not found
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 error:
- *                   type: string
- *                   example: Output not found
- */
-router.get('/output/:c_id', outputController.get_output_by_id);
-
-/**
- * @swagger
- * /output/{c_id}:
- *   put:
- *     summary: Update output by ID
- *     tags: [Output]
- *     parameters:
- *       - in: path
- *         name: c_id
- *         schema:
- *           type: integer
- *         required: true
- *         description: output ID
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             properties:
- *               c_output:
- *                 type: string
- *                 example: "1 + 1 = 2"
- *               c_total_duration:
- *                 type: integer
- *                 example: 100
- *               c_token:
- *                 type: integer
- *                 example: 50
- *               c_score:
- *                 type: number
- *                 format: float
- *                 example: 1.2
- *               c_note:
- *                 type: string
- *                 example: "good job"
- *               c_source:
- *                 type: string
- *                 example: "google.com"
- *               t_input_id:
- *                 type: integer
- *                 example: 1
- *               t_model_id:
- *                 type: integer
- *                 example: 1
- *     responses:
- *       200:
- *         description: Output updated successfully
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 message:
- *                   type: string
- *       404:
- *         description: Output not found
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 error:
- *                   type: string
- *                   example: Output not found
- */
-router.put('/output/:c_id', outputController.update_output);
 
 /**
  * @swagger
