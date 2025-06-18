@@ -15,7 +15,7 @@ const options = {
       },
     ],
   },
-  apis: ['./routes/*.js', './controllers/*.js'], // path ke file yang berisi komentar swagger
+  apis: ['./main.js'], // path ke file yang berisi komentar swagger
 };
 
 const specs = swaggerJsdoc(options);

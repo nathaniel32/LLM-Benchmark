@@ -18,5 +18,5 @@ app.put('/users/:id', userController.updateUser);
 app.delete('/users/:id', userController.deleteUser);
 
 app.listen(PORT, () => {
-    console.log(`Server berjalan di http://localhost:${PORT}`);
+    console.log(`URL: http://localhost:${PORT}`);
 });
