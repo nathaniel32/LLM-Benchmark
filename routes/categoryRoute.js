@@ -11,7 +11,7 @@ const router = require('../utils/expressUtil');
  * @swagger
  * /category:
  *   post:
- *     summary: Create a new user
+ *     summary: Create a new category
  *     tags: [Category]
  *     requestBody:
  *       required: true
@@ -20,19 +20,14 @@ const router = require('../utils/expressUtil');
  *           schema:
  *             type: object
  *             required:
- *               - name
- *               - email
+ *               - c_category
  *             properties:
- *               name:
+ *               c_category:
  *                 type: string
- *                 example: John Doe
- *               email:
- *                 type: string
- *                 format: email
- *                 example: john@example.com
+ *                 example: Biology
  *     responses:
  *       200:
- *         description: User added successfully
+ *         description: category added successfully
  *         content:
  *           application/json:
  *             schema:
@@ -61,16 +56,12 @@ router.post('/category', categoryController.create_category);
  *               items:
  *                 type: object
  *                 properties:
- *                   id:
+ *                   c_id:
  *                     type: integer
  *                     example: 1
- *                   name:
+ *                   c_category:
  *                     type: string
- *                     example: John Doe
- *                   email:
- *                     type: string
- *                     format: email
- *                     example: john@example.com
+ *                     example: Biology
  */
 router.get('/category', categoryController.get_all_categories);
 
