@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+</head>
+<body>
+    <div id="app">
+        <div>
+            <input v-model="v_url" placeholder="URL">
+            <input type="range" v-model.number="v_temperature" min="0" max="2" step="0.1">
+            <span>{{ v_temperature }}</span>
+            <div v-for="model in v_models">
+                <input v-model="model.value">
+            </div>
+            <input type="text" v-model="v_content" @change="f_prompt">
+        </div>
+        <div>
+            thinking
+            <div v-html="v_response.think"></div>
+            <hr>
+            <div v-html="v_response.final"></div>
+        </div>
+    </div>
+    <script src="main.js" type="module"></script>
+</body>
+</html>
