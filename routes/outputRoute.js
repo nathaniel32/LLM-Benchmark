@@ -23,7 +23,8 @@ const router = require('../utils/expressUtil');
  *               - c_output
  *               - c_total_duration
  *               - c_score
- *               - t_input
+ *               - t_input_id
+ *               - t_model_id
  *             properties:
  *               c_output:
  *                 type: string
@@ -44,7 +45,10 @@ const router = require('../utils/expressUtil');
  *               c_source:
  *                 type: string
  *                 example: "google.com"
- *               t_input:
+ *               t_input_id:
+ *                 type: integer
+ *                 example: 1
+ *               t_model_id:
  *                 type: integer
  *                 example: 1
  *     responses:
@@ -105,7 +109,10 @@ router.post('/output', outputController.create_output);
  *                 c_source:
  *                   type: string
  *                   example: "google.com"
- *                 t_input:
+ *                 t_input_id:
+ *                   type: integer
+ *                   example: 1
+ *                 t_model_id:
  *                   type: integer
  *                   example: 1
  *       404:
@@ -160,7 +167,10 @@ router.get('/output/:c_id', outputController.get_output_by_id);
  *               c_source:
  *                 type: string
  *                 example: "google.com"
- *               t_input:
+ *               t_input_id:
+ *                 type: integer
+ *                 example: 1
+ *               t_model_id:
  *                 type: integer
  *                 example: 1
  *     responses:

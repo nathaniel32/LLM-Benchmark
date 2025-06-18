@@ -1,13 +1,13 @@
 const db = require('../utils/database');
 
 exports.create_output = (req, res) => { 
-    const { c_output, c_total_duration, c_token, c_score, c_note, c_source, t_input } = req.body;
-    const sql = `INSERT INTO t_output (c_output, c_total_duration, c_token, c_score, c_note, c_source, t_input) VALUES (?, ?, ?, ?, ?, ?, ?)`;
-    db.run(sql, [c_output, c_total_duration, c_token, c_score, c_note, c_source, t_input], function(err) {
+    const { c_output, c_total_duration, c_token, c_score, c_note, c_source, t_input_id, t_model_id } = req.body;
+    const sql = `INSERT INTO t_output (c_output, c_total_duration, c_token, c_score, c_note, c_source, t_input_id, t_model_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?)`;
+    db.run(sql, [c_output, c_total_duration, c_token, c_score, c_note, c_source, t_input_id, t_model_id], function(err) {
         if (err) {
             return res.status(400).json({ error: err.message });
         }
-        res.json({ message: 'Category added successfully', id: this.lastID });
+        res.json({ message: 'Output added successfully', id: this.lastID });
     });
 };
 
@@ -23,9 +23,9 @@ exports.get_output_by_id = (req, res) => {
 
 exports.update_output = (req, res) => {
     const { c_id } = req.params;
-    const { c_output, c_total_duration, c_token, c_score, c_note, c_source, t_input } = req.body;
-    const sql = `UPDATE t_output SET c_output = ?, c_total_duration = ?, c_token = ?, c_score = ?, c_note = ?, c_source = ?, t_input = ? WHERE c_id = ?`;
-    db.run(sql, [c_output, c_total_duration, c_token, c_score, c_note, c_source, t_input, c_id], function(err) {
+    const { c_output, c_total_duration, c_token, c_score, c_note, c_source, t_input_id, t_model_id } = req.body;
+    const sql = `UPDATE t_output SET c_output = ?, c_total_duration = ?, c_token = ?, c_score = ?, c_note = ?, c_source = ?, t_input_id = ?, t_model_id = ? WHERE c_id = ?`;
+    db.run(sql, [c_output, c_total_duration, c_token, c_score, c_note, c_source, t_input_id, t_model_id, c_id], function(err) {
         if (err) return res.status(400).json({ error: err.message });
         if (this.changes === 0) return res.status(404).json({ error: 'Output not found' });
         res.json({ message: 'Output updated successfully' });

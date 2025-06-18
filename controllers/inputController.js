@@ -7,7 +7,7 @@ exports.create_input = (req, res) => {
         if (err) {
             return res.status(400).json({ error: err.message });
         }
-        res.json({ message: 'Category added successfully', id: this.lastID });
+        res.json({ message: 'Input added successfully', id: this.lastID });
     });
 };
 

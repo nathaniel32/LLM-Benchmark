@@ -2,6 +2,7 @@ const express = require('express');
 const path = require('path');
 const { swaggerUi, specs } = require('./utils/swagger');
 const categoryRoute = require('./routes/categoryRoute');
+const modelRoute = require('./routes/modelRoute');
 const inputRoute = require('./routes/inputRoute');
 const outputRoute = require('./routes/outputRoute');
 
@@ -13,6 +14,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
 app.use('/', categoryRoute);
+app.use('/', modelRoute);
 app.use('/', inputRoute);
 app.use('/', outputRoute);
 
