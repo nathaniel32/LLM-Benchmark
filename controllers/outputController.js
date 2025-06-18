@@ -12,9 +12,9 @@ exports.create_output = (req, res) => {
 };
 
 exports.get_output_by_id = (req, res) => {
-    const { id } = req.params;
+    const { c_id } = req.params;
     const sql = `SELECT * FROM t_output WHERE c_id = ?`;
-    db.get(sql, [id], (err, row) => {
+    db.get(sql, [c_id], (err, row) => {
         if (err) return res.status(500).json({ error: err.message });
         if (!row) return res.status(404).json({ error: 'Output not found' });
         res.json(row);
