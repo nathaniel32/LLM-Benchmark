@@ -3,7 +3,8 @@ const db = require('../utils/database');
 exports.create_category = (req, res) => { 
     const { c_category } = req.body;
     const sql = `INSERT INTO t_category (c_category) VALUES (?)`;
-    db.run(sql, [c_category.trim() || null], function(err) {
+    const category_trimmed = c_category ? c_category.trim() : null;
+    db.run(sql, [category_trimmed], function(err) {
         if (err) {
             return res.status(400).json({ error: err.message });
         }

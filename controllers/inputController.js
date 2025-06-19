@@ -3,7 +3,10 @@ const db = require('../utils/database');
 exports.create_input = (req, res) => { 
     const { c_input, c_rule, c_temperature, c_note, t_category_id } = req.body;
     const sql = `INSERT INTO t_input (c_input, c_rule, c_temperature, c_note, t_category_id) VALUES (?, ?, ?, ?, ?)`;
-    db.run(sql, [c_input.trim() || null, c_rule.trim() || null, c_temperature, c_note.trim() || null, t_category_id], function(err) {
+    const input_trimmed = c_input ? c_input.trim() : null;
+    const rule_trimmed = c_rule ? c_rule.trim() : null;
+    const note_trimmed = c_note ? c_note.trim() : null;
+    db.run(sql, [input_trimmed, rule_trimmed, c_temperature, note_trimmed, t_category_id], function(err) {
         if (err) {
             return res.status(400).json({ error: err.message });
         }

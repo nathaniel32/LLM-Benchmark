@@ -3,7 +3,8 @@ const db = require('../utils/database');
 exports.create_model = (req, res) => { 
     const { c_model } = req.body;
     const sql = `INSERT INTO t_model (c_model) VALUES (?)`;
-    db.run(sql, [c_model.trim() || null], function(err) {
+    const model_trimmed = c_model ? c_model.trim() : null;
+    db.run(sql, [model_trimmed], function(err) {
         if (err) {
             return res.status(400).json({ error: err.message });
         }
