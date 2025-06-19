@@ -1,9 +1,9 @@
 const db = require('../utils/database');
 
 exports.create_input = (req, res) => { 
-    const { c_input, c_rule, c_note, t_category_id } = req.body;
-    const sql = `INSERT INTO t_input (c_input, c_rule, c_note, t_category_id) VALUES (?, ?, ?, ?)`;
-    db.run(sql, [c_input, c_rule, c_note, t_category_id], function(err) {
+    const { c_input, c_rule, c_temperature, c_note, t_category_id } = req.body;
+    const sql = `INSERT INTO t_input (c_input, c_rule, c_temperature, c_note, t_category_id) VALUES (?, ?, ?, ?, ?)`;
+    db.run(sql, [c_input.trim(), c_rule.trim(), c_temperature, c_note.trim(), t_category_id], function(err) {
         if (err) {
             return res.status(400).json({ error: err.message });
         }

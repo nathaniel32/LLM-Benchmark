@@ -24,7 +24,7 @@ const router = require('../utils/expressUtil');
  *             properties:
  *               c_model:
  *                 type: string
- *                 example: llama3.2
+ *                 example: erwan2/DeepSeek-R1-Distill-Qwen-1.5B:latest
  *     responses:
  *       200:
  *         description: model added successfully
@@ -61,7 +61,7 @@ router.post('/model', modelController.create_model);
  *                     example: 1
  *                   c_model:
  *                     type: string
- *                     example: llama3.1
+ *                     example: erwan2/DeepSeek-R1-Distill-Qwen-1.5B:latest
  */
 router.get('/model', modelController.get_all_models);
 

@@ -1,6 +1,6 @@
 export async function prompt_bot_chat(url, temperature, model, messages) {
     try {
-        const response = await fetch(url+'/api/chat', {
+        const response = await fetch(url.trim()+'/api/chat', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -39,7 +39,7 @@ export async function prompt_bot_chat(url, temperature, model, messages) {
 
 export async function prompt_bot_generate(url, temperature, model, prompt) {
     try {
-        const response = await fetch(url+'/api/generate', {
+        const response = await fetch(url.trim()+'/api/generate', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

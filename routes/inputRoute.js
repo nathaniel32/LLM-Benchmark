@@ -22,6 +22,7 @@ const router = require('../utils/expressUtil');
  *             type: object
  *             required:
  *               - c_input
+ *               - c_temperature
  *               - t_category_id
  *             properties:
  *               c_input:
@@ -30,6 +31,10 @@ const router = require('../utils/expressUtil');
  *               c_rule:
  *                 type: string
  *                 example: "useful assistant"
+ *               c_temperature:
+ *                 type: number
+ *                 format: float
+ *                 example: 1.1
  *               c_note:
  *                 type: string
  *               t_category_id:

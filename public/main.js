@@ -122,7 +122,7 @@ new Vue({
             this.v_rule = this.v_rule === '' ? null : this.v_rule;
             this.v_note = this.v_note === '' ? null : this.v_note;
 
-            const input_res = await api_create_input(this.v_content, this.v_rule, this.v_note, this.v_categories.select);
+            const input_res = await api_create_input(this.v_content, this.v_rule, this.v_temperature, this.v_note, this.v_categories.select);
 
             if (input_res.error || !input_res.data.id){
                 this.v_info = input_res.message;
