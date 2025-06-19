@@ -2,6 +2,7 @@ import { api_get_hub_sql_schema, api_create_category, api_delete_category, api_g
 new Vue({
     el: '#app',
     data: {
+        v_active_section: 'categories',
         v_info: '',
         v_categories: [],
         v_input_category: '',

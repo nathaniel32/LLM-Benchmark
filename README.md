@@ -33,8 +33,15 @@ npm start
 
 The server will start on `http://localhost:3000`.
 
+## 📘 Data Control
 
-## 📘 API Documentation
+Once the server is running, you can manage your data at:
+
+```
+http://localhost:3000/admin
+```
+
+## API Documentation
 
 After starting the server, you can access the Swagger UI at:
 
