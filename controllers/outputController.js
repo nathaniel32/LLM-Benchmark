@@ -27,6 +27,14 @@ exports.create_output = (req, res) => {
     });
 };
 
+exports.get_all_outputs = (req, res) => {
+    const sql = `SELECT * FROM t_output`;
+    db.all(sql, [], (err, rows) => {
+        if (err) return res.status(500).json({ error: err.message });
+        res.json(rows);
+    });
+};
+
 exports.delete_output = (req, res) => {
     const { c_id } = req.params;
     const sql = `DELETE FROM t_output WHERE c_id = ?`;

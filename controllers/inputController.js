@@ -14,6 +14,14 @@ exports.create_input = (req, res) => {
     });
 };
 
+exports.get_all_inputs = (req, res) => {
+    const sql = `SELECT * FROM t_input`;
+    db.all(sql, [], (err, rows) => {
+        if (err) return res.status(500).json({ error: err.message });
+        res.json(rows);
+    });
+};
+
 exports.delete_input = (req, res) => {
     const { c_id } = req.params;
     const sql = `DELETE FROM t_input WHERE c_id = ?`;

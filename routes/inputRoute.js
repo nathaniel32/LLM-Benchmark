@@ -57,6 +57,18 @@ router.post('/input', inputController.create_input);
 
 /**
  * @swagger
+ * /input:
+ *   get:
+ *     summary: Get all Input
+ *     tags: [Input]
+ *     responses:
+ *       200:
+ *         description: List of Input retrieved successfully
+ */
+router.get('/input', inputController.get_all_inputs);
+
+/**
+ * @swagger
  * /input/{c_id}:
  *   delete:
  *     summary: Delete input by ID

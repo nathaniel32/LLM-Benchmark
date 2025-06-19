@@ -1,4 +1,4 @@
-import { api_get_hub_sql_schema, api_create_category, api_delete_category, api_get_all_categories, api_get_all_models, api_run_hub_sql, api_create_model, api_delete_model } from './api.js';
+import { api_get_hub_sql_schema, api_create_category, api_delete_category, api_get_all_categories, api_get_all_models, api_run_hub_sql, api_create_model, api_delete_model, api_get_all_inputs, api_delete_input, api_get_all_outputs, api_delete_output } from './api.js';
 new Vue({
     el: '#app',
     data: {
@@ -15,11 +15,15 @@ join t_category on t_category.c_id = t_input.t_category_id`,
         v_show_schema: '',
         v_models: [],
         v_input_model: '',
+        v_inputs: [],
+        v_outputs: [],
     },
     methods:{
         f_init(){
             this.f_display_categories();
             this.f_display_models();
+            this.f_display_inputs();
+            this.f_display_outputs();
             this.f_get_hub_sql_schema();
         },
         f_clear_info(duration){
@@ -27,6 +31,8 @@ join t_category on t_category.c_id = t_input.t_category_id`,
                 this.v_info = "";
             }, duration);
         },
+
+        // --- Category ---
         async f_display_categories(){
             const get_categories_res = await api_get_all_categories();
             if(get_categories_res.error){
@@ -55,6 +61,8 @@ join t_category on t_category.c_id = t_input.t_category_id`,
             }
             this.f_display_categories();
         },
+
+        // --- Hub ---
         async f_run_hub_sql(){
             const run_hub_sql_res = await api_run_hub_sql(this.v_input_hub_sql);
             if(run_hub_sql_res.error){
@@ -62,7 +70,14 @@ join t_category on t_category.c_id = t_input.t_category_id`,
                 this.f_clear_info(10000);
                 return;
             }
-            this.v_hub_sql = run_hub_sql_res.data;
+            
+            if(run_hub_sql_res.data.length != 0){
+                this.v_hub_sql = run_hub_sql_res.data;
+                this.v_info = run_hub_sql_res.messages;
+            }else{
+                this.v_info = "No Results!";
+            }
+            this.f_clear_info(10000);
         },
         async f_get_hub_sql_schema(){
             const get_hub_sql_schema_res = await api_get_hub_sql_schema();
@@ -73,6 +88,8 @@ join t_category on t_category.c_id = t_input.t_category_id`,
             }
             this.v_hub_sql_schema = get_hub_sql_schema_res.data;
         },
+
+        // --- Model ---
         async f_display_models(){
             const get_models_res = await api_get_all_models();
             if(get_models_res.error){
@@ -100,7 +117,47 @@ join t_category on t_category.c_id = t_input.t_category_id`,
                 return;
             }
             this.f_display_models();
-        }
+        },
+
+        // --- Input ---
+        async f_display_inputs(){
+            const get_inputs_res = await api_get_all_inputs();
+            if(get_inputs_res.error){
+                this.v_info = get_inputs_res.message;
+                this.f_clear_info(10000);
+                return;
+            }
+            this.v_inputs = get_inputs_res.data;
+        },
+        async f_delete_input(id){
+            const delete_input_res = await api_delete_input(id);
+            if(delete_input_res.error){
+                this.v_info = delete_input_res.message;
+                this.f_clear_info(10000);
+                return;
+            }
+            this.f_display_inputs();
+        },
+        
+        // --- Output ---
+        async f_display_outputs(){
+            const get_outputs_res = await api_get_all_outputs();
+            if(get_outputs_res.error){
+                this.v_info = get_outputs_res.message;
+                this.f_clear_info(10000);
+                return;
+            }
+            this.v_outputs = get_outputs_res.data;
+        },
+        async f_delete_output(id){
+            const delete_output_res = await api_delete_output(id);
+            if(delete_output_res.error){
+                this.v_info = delete_output_res.message;
+                this.f_clear_info(10000);
+                return;
+            }
+            this.f_display_outputs();
+        },
     },
     created() {
         this.f_init();

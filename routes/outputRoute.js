@@ -79,6 +79,18 @@ router.post('/output', outputController.create_output);
 
 /**
  * @swagger
+ * /output:
+ *   get:
+ *     summary: Get all Output
+ *     tags: [Output]
+ *     responses:
+ *       200:
+ *         description: List of Output retrieved successfully
+ */
+router.get('/output', outputController.get_all_outputs);
+
+/**
+ * @swagger
  * /output/{c_id}:
  *   delete:
  *     summary: Delete output by ID
