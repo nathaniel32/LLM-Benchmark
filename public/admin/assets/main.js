@@ -6,8 +6,12 @@ new Vue({
         v_categories: [],
         v_input_category: '',
         v_hub_sql: [],
-        v_input_hub_sql: 'select * from t_model',
-        v_hub_sql_schema: ''
+        v_input_hub_sql: `select * from t_output
+                          join t_input on t_input.c_id = t_output.t_input_id 
+                          join t_model on t_model.c_id = t_output.t_model_id
+                          join t_category on t_category.c_id = t_input.t_category_id`,
+        v_hub_sql_schema: '',
+        v_show_schema: ''
     },
     methods:{
         f_init(){

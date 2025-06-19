@@ -14,6 +14,5 @@ exports.run_hub_sql = (req, res) => {
 };
 
 exports.get_hub_sql_schema = (req, res) => {
-    console.log("ok")
     res.json(create_table);
 };
