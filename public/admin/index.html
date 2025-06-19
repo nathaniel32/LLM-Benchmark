@@ -34,6 +34,9 @@
             <button @click="f_create_category">+</button> <!-- add button -->
         </div>
         <div>
+            <pre>{{ v_hub_sql_schema }}</pre> <!-- small toggle to show all -->
+            <textarea v-model="v_input_hub_sql"></textarea>
+            <button @click="f_run_hub_sql">submit</button>
             <table>
                 <thead>
                     <tr>
@@ -50,8 +53,6 @@
                     </tr>
                 </tbody>
             </table>
-            <input v-model="v_input_hub_sql">
-            <button @click="f_run_hub_sql">submit</button>
         </div>
     </div>
     </div>

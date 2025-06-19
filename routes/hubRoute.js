@@ -27,4 +27,16 @@ const router = require('../utils/expressUtil');
  */
 router.get('/hub/:sql', hubController.run_hub_sql);
 
+/**
+ * @swagger
+ * /schema:
+ *   get:
+ *     summary: Get Hub SQL Schema
+ *     tags: [Hub]
+ *     responses:
+ *       200:
+ *         description: SQL Schema
+ */
+router.get('/schema', hubController.get_hub_sql_schema);
+
 module.exports = router;

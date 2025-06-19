@@ -1,4 +1,4 @@
-import { api_create_category, api_delete_category, api_get_all_categories, api_run_hub_sql } from './api.js';
+import { api_get_hub_sql_schema, api_create_category, api_delete_category, api_get_all_categories, api_run_hub_sql } from './api.js';
 new Vue({
     el: '#app',
     data: {
@@ -6,11 +6,13 @@ new Vue({
         v_categories: [],
         v_input_category: '',
         v_hub_sql: [],
-        v_input_hub_sql: 'select * from t_model'
+        v_input_hub_sql: 'select * from t_model',
+        v_hub_sql_schema: ''
     },
     methods:{
-        async f_init(){
+        f_init(){
             this.f_display_category();
+            this.f_get_hub_sql_schema();
         },
         f_clear_info(duration){
             setTimeout(()=>{
@@ -53,6 +55,15 @@ new Vue({
                 return;
             }
             this.v_hub_sql = run_hub_sql_res.data;
+        },
+        async f_get_hub_sql_schema(){
+            const get_hub_sql_schema_res = await api_get_hub_sql_schema();
+            if(get_hub_sql_schema_res.error){
+                this.v_info = get_hub_sql_schema_res.message;
+                this.f_clear_info(10000);
+                return;
+            }
+            this.v_hub_sql_schema = get_hub_sql_schema_res.data;
         }
     },
     created() {
