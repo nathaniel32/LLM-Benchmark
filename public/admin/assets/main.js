@@ -1,4 +1,4 @@
-import { api_get_hub_sql_schema, api_create_category, api_delete_category, api_get_all_categories, api_run_hub_sql } from './api.js';
+import { api_get_hub_sql_schema, api_create_category, api_delete_category, api_get_all_categories, api_get_all_models, api_run_hub_sql, api_create_model, api_delete_model } from './api.js';
 new Vue({
     el: '#app',
     data: {
@@ -12,11 +12,14 @@ new Vue({
                           join t_model on t_model.c_id = t_output.t_model_id
                           join t_category on t_category.c_id = t_input.t_category_id`,
         v_hub_sql_schema: '',
-        v_show_schema: ''
+        v_show_schema: '',
+        v_models: [],
+        v_input_model: '',
     },
     methods:{
         f_init(){
-            this.f_display_category();
+            this.f_display_categories();
+            this.f_display_models();
             this.f_get_hub_sql_schema();
         },
         f_clear_info(duration){
@@ -24,7 +27,7 @@ new Vue({
                 this.v_info = "";
             }, duration);
         },
-        async f_display_category(){
+        async f_display_categories(){
             const get_categories_res = await api_get_all_categories();
             if(get_categories_res.error){
                 this.v_info = get_categories_res.message;
@@ -40,7 +43,7 @@ new Vue({
                 this.f_clear_info(10000);
                 return;
             }
-            this.f_display_category();
+            this.f_display_categories();
             this.v_input_category = '';
         },
         async f_delete_category(id){
@@ -50,7 +53,7 @@ new Vue({
                 this.f_clear_info(10000);
                 return;
             }
-            this.f_display_category();
+            this.f_display_categories();
         },
         async f_run_hub_sql(){
             const run_hub_sql_res = await api_run_hub_sql(this.v_input_hub_sql);
@@ -69,6 +72,34 @@ new Vue({
                 return;
             }
             this.v_hub_sql_schema = get_hub_sql_schema_res.data;
+        },
+        async f_display_models(){
+            const get_models_res = await api_get_all_models();
+            if(get_models_res.error){
+                this.v_info = get_models_res.message;
+                this.f_clear_info(10000);
+                return;
+            }
+            this.v_models = get_models_res.data;
+        },
+        async f_create_model(){
+            const create_model_res = await api_create_model(this.v_input_model);
+            if(create_model_res.error){
+                this.v_info = create_model_res.message;
+                this.f_clear_info(10000);
+                return;
+            }
+            this.f_display_models();
+            this.v_input_model = '';
+        },
+        async f_delete_model(id){
+            const delete_model_res = await api_delete_model(id);
+            if(delete_model_res.error){
+                this.v_info = delete_model_res.message;
+                this.f_clear_info(10000);
+                return;
+            }
+            this.f_display_models();
         }
     },
     created() {

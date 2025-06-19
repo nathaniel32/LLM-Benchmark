@@ -143,6 +143,14 @@
                             <span>Categories Manager</span>
                         </button>
                         <button 
+                            @click="v_active_section = 'models'"
+                            :class="v_active_section === 'models' ? 'active' : ''"
+                            class="nav-button px-6 py-3 rounded-xl font-semibold text-white flex items-center space-x-2"
+                        >
+                            <i class="fas fa-tags"></i>
+                            <span>Models Manager</span>
+                        </button>
+                        <button 
                             @click="v_active_section = 'sql'"
                             :class="v_active_section === 'sql' ? 'active' : ''"
                             class="nav-button px-6 py-3 rounded-xl font-semibold text-white flex items-center space-x-2"
@@ -268,6 +276,111 @@
                                     </div>
                                     <h3 class="text-xl font-semibold mb-2">No Categories Yet</h3>
                                     <p>Start by adding your first category using the form above.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </transition>
+
+            <!-- Models Management Section -->
+            <transition name="fade" mode="out-in">
+                <div v-if="v_active_section === 'models'" key="models" class="workbench-section">
+                    <div class="glass-effect rounded-3xl p-8 shadow-2xl">
+                        <div class="flex items-center justify-between mb-8">
+                            <div class="flex items-center space-x-4">
+                                <div class="w-12 h-12 bg-gradient-to-r from-green-500 to-emerald-600 rounded-2xl flex items-center justify-center">
+                                    <i class="fas fa-tags text-white text-xl"></i>
+                                </div>
+                                <div>
+                                    <h2 class="text-3xl font-bold text-white">Models Management</h2>
+                                    <p class="text-green-300">Manage your database models and entities</p>
+                                </div>
+                            </div>
+                            <div class="bg-green-500/20 px-6 py-3 rounded-2xl border border-green-500/30">
+                                <span class="text-green-300 font-bold text-lg">
+                                    {{ v_models.length }} Models
+                                </span>
+                            </div>
+                        </div>
+
+                        <!-- Add Model Form -->
+                        <div class="mb-8 p-6 code-highlight rounded-2xl border border-white/10">
+                            <h3 class="text-white font-semibold mb-4 flex items-center">
+                                <i class="fas fa-plus-circle mr-2 text-green-400"></i>
+                                Add New Model
+                            </h3>
+                            <div class="flex space-x-4">
+                                <input 
+                                    v-model="v_input_model" 
+                                    @keyup.enter="f_create_model"
+                                    placeholder="Enter model name (e.g., 'llama3.2', 'erwan2/DeepSeek-R1-Distill-Qwen-1.5B')"
+                                    class="flex-1 p-4 bg-black/30 border border-white/20 rounded-xl text-white placeholder-white/50 focus:border-green-400 focus:ring-4 focus:ring-green-400/20 transition-all text-lg"
+                                >
+                                <button 
+                                    @click="f_create_model"
+                                    :disabled="!v_input_model.trim()"
+                                    class="px-8 py-4 bg-gradient-to-r from-green-500 to-emerald-600 text-white font-bold rounded-xl hover:from-green-600 hover:to-emerald-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300 shadow-lg hover:shadow-2xl transform hover:scale-105 text-lg"
+                                >
+                                    <i class="fas fa-plus mr-2"></i>Add Model
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Models Table -->
+                        <div class="glass-effect rounded-2xl overflow-hidden border border-white/10">
+                            <div class="bg-black/20 px-6 py-4 border-b border-white/10">
+                                <h3 class="text-white font-semibold flex items-center">
+                                    <i class="fas fa-table mr-2 text-blue-400"></i>
+                                    Models Database
+                                </h3>
+                            </div>
+                            <div class="table-container">
+                                <table class="w-full" v-if="v_models.length > 0">
+                                    <thead class="bg-black/40 sticky top-0">
+                                        <tr>
+                                            <th 
+                                                v-for="(value, key) in v_models[0]" 
+                                                :key="key"
+                                                class="px-6 py-4 text-left text-white font-bold uppercase text-sm tracking-wider"
+                                            >
+                                                {{ key.replace('c_', '').replace('_', ' ') }}
+                                            </th>
+                                            <th class="px-6 py-4 text-center text-white font-bold uppercase text-sm tracking-wider">
+                                                Actions
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr 
+                                            v-for="(row, index) in v_models" 
+                                            :key="row.c_id || index"
+                                            class="data-row border-b border-white/5 hover:bg-white/5 transition-all duration-200"
+                                        >
+                                            <td 
+                                                v-for="(value, key) in row" 
+                                                :key="key"
+                                                class="px-6 py-4 text-white text-lg"
+                                            >
+                                                {{ value }}
+                                            </td>
+                                            <td class="px-6 py-4 text-center">
+                                                <button 
+                                                    @click="f_delete_model(row.c_id || index)"
+                                                    class="px-4 py-2 bg-red-500/20 text-red-300 rounded-lg hover:bg-red-500/40 hover:text-red-100 transition-all duration-200 border border-red-500/30"
+                                                >
+                                                    <i class="fas fa-trash mr-2"></i>Delete
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <div v-else class="p-12 text-center text-white/60">
+                                    <div class="w-24 h-24 mx-auto mb-6 bg-white/5 rounded-full flex items-center justify-center">
+                                        <i class="fas fa-inbox text-4xl opacity-50"></i>
+                                    </div>
+                                    <h3 class="text-xl font-semibold mb-2">No Models Yet</h3>
+                                    <p>Start by adding your first model using the form above.</p>
                                 </div>
                             </div>
                         </div>

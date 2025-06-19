@@ -115,3 +115,75 @@ export async function api_get_hub_sql_schema() {
         return {error: true, message: error, data: null};
     }
 }
+
+export async function api_create_model(c_model) {
+    try {
+        const response = await fetch("../model", {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                c_model
+            })
+        });
+        const result = await response.json();
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${result.error}`);
+        }
+        return {
+            error: false,
+            messages: "ok",
+            data: result
+        }
+    } catch (error) {
+        console.error("Error:", error);
+        return {error: true, message: error, data: null};
+    }
+}
+
+export async function api_delete_model(c_id) {
+    try {
+        const response = await fetch("../model/" + c_id, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+        const result = await response.json();
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${result.error}`);
+        }
+        return {
+            error: false,
+            messages: "ok",
+            data: result
+        }
+    } catch (error) {
+        console.error("Error:", error);
+        return {error: true, message: error, data: null};
+    }
+}
+
+export async function api_get_all_models() {
+    try {
+        const response = await fetch("../model", {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+        const result = await response.json();
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${result.error}`);
+        }
+        return {
+            error: false,
+            messages: "ok",
+            data: result
+        }
+    } catch (error) {
+        console.error("Error:", error);
+        return {error: true, message: error, data: null};
+    }
+}
