@@ -8,7 +8,7 @@ const outputRoute = require('./routes/outputRoute');
 const hubRoute = require('./routes/hubRoute');
 
 const app = express();
-const PORT = 3000;
+const PORT = 5000;
 
 app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
