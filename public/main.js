@@ -6,7 +6,7 @@ new Vue({
     el: '#app',
     data: {
         v_processing: false,
-        v_categories: {select: 0, option:[{c_category:"category", c_id: "0"}]},
+        v_categories: {select: '', option:[]},
         v_info:"",
         v_rule:"",
         v_url:"",
@@ -45,13 +45,13 @@ new Vue({
         },
         async f_prompt() {
             if (this.v_content == '') {
-                this.v_info = "fill input";
+                this.v_info = "Fill the content in the box below!";
                 this.f_clear_info(5000);
                 return;
             }
 
             if (this.v_categories.select == 0) {
-                this.v_info = "fill category";
+                this.v_info = "Fill the category in the box below!";
                 this.f_clear_info(5000);
                 return;
             }
@@ -59,6 +59,13 @@ new Vue({
             this.v_processing = true;
 
             this.v_info = "prompt...";
+
+            if(this.v_models.length == 0){
+                this.v_info = "no ai models available";
+                this.f_clear_info(5000);
+                this.v_processing = false;
+                return;
+            }
 
             for (const model of this.v_models) {
                 let response;
@@ -106,13 +113,16 @@ new Vue({
             this.v_info = "uploading...";
             for (const response of this.v_responses) {
                 if (typeof response.score !== 'number') {
-                    this.v_info = "fill score";
+                    this.v_info = "Fill in all the scores in the box below!";
                     this.f_clear_info(5000);
                     return;
                 }
             }
 
-            const input_res = await api_create_input(this.v_content, this.v_note, this.v_categories.select);
+            this.v_rule = this.v_rule === '' ? null : this.v_rule;
+            this.v_note = this.v_note === '' ? null : this.v_note;
+
+            const input_res = await api_create_input(this.v_content, this.v_rule, this.v_note, this.v_categories.select);
 
             if (input_res.error || !input_res.data.id){
                 this.v_info = input_res.message;
@@ -125,6 +135,7 @@ new Vue({
             
             for (const response of this.v_responses) {
                 response.think = response.think === '' ? null : response.think;
+                response.note = response.note === '' ? null : response.note;
                 const output_res = await api_create_output(response.think, response.final, response.total_duration, response.load_duration, response.prompt_eval_count, response.prompt_eval_duration, response.eval_count, response.eval_duration, response.score, response.note, input_res.data.id, response.model);
                 if (output_res.error){
                     this.v_info = output_res.message;
@@ -148,6 +159,11 @@ new Vue({
         },
         f_render_markdown(text) {
             return marked.parse(text);
+        },
+        f_on_score_input(response){
+            const value = parseInt(response.score)
+            if (value > 5) response.score = 5
+            else if (value < 1) response.score = 1
         }
     },
     created() {

@@ -27,6 +27,9 @@ const router = require('../utils/expressUtil');
  *               c_input:
  *                 type: string
  *                 example: "1 + 1 = ?"
+ *               c_rule:
+ *                 type: string
+ *                 example: "useful assistant"
  *               c_note:
  *                 type: string
  *               t_category_id:

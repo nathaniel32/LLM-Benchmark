@@ -38,7 +38,7 @@ export async function api_get_all_models() {
     }
 }
 
-export async function api_create_input(c_input, c_note, t_category_id) {
+export async function api_create_input(c_input, c_rule, c_note, t_category_id) {
     //console.log("=======================================");
     //console.log(c_input);
     //console.log(t_category_id);
@@ -51,6 +51,7 @@ export async function api_create_input(c_input, c_note, t_category_id) {
             },
             body: JSON.stringify({
                 c_input,
+                c_rule,
                 c_note,
                 t_category_id
             })

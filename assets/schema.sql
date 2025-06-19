@@ -13,6 +13,7 @@ CREATE TABLE IF NOT EXISTS t_model (
 CREATE TABLE IF NOT EXISTS t_input (
     c_id INTEGER PRIMARY KEY AUTOINCREMENT,
     c_input TEXT NOT NULL UNIQUE,
+    c_rule TEXT,
     c_note TEXT,
     t_category_id INTEGER NOT NULL,
     FOREIGN KEY (t_category_id) REFERENCES t_category(c_id)

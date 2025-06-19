@@ -94,25 +94,11 @@
                 </div>
             </div>
 
-            <!-- Model Selection -->
-            <div class="mb-6">
-                <label class="block text-white font-semibold mb-3">
-                    <i class="fas fa-brain mr-2"></i>Model Selection
-                </label>
-                <div class="space-y-2">
-                    <div v-for="model in v_models" :key="model.c_id" 
-                         class="flex items-center p-3 bg-white/10 rounded-lg hover:bg-white/20 transition-colors">
-                        <!-- <input type="radio" :value="model.c_id" v-model="v_selected_model" class="mr-3 text-purple-500 focus:ring-purple-500"> -->
-                        <span class="text-white font-medium">{{ model.c_model }}</span>
-                    </div>
-                </div>
-            </div>
-
             <!-- Configuration -->
             <div class="space-y-6">
                 <div>
                     <label class="block text-white font-semibold mb-2">
-                        <i class="fas fa-link mr-2"></i>API Endpoint
+                        <i class="fas fa-link mr-2"></i>Ollama Endpoint *
                     </label>
                     <input v-model="v_url" 
                            placeholder="Enter API URL"
@@ -149,7 +135,7 @@
 
                 <div>
                     <label class="block text-white font-semibold mb-2">
-                        <i class="fas fa-edit mr-2"></i>Content/Prompt
+                        <i class="fas fa-edit mr-2"></i>Content/Prompt *
                     </label>
                     <textarea v-model="v_content" 
                               placeholder="Enter your prompt or content"
@@ -170,7 +156,7 @@
 
                     <div>
                         <label class="block text-white font-semibold mb-2">
-                            <i class="fas fa-tags mr-2"></i>Category
+                            <i class="fas fa-tags mr-2"></i>Category *
                         </label>
                         <select v-model="v_categories.select" 
                                 :disabled="v_responses.length !== 0 || v_processing"
@@ -192,6 +178,20 @@
                     <i class="fas fa-paper-plane mr-2"></i>
                     {{ v_processing ? 'Processing...' : 'Submit Request' }}
                 </button>
+            </div>
+
+            <!-- Model -->
+            <div class="mt-6">
+                <label class="block text-white font-semibold mb-3">
+                    <i class="fas fa-brain mr-2"></i>Model *
+                </label>
+                <div class="space-y-2">
+                    <div v-for="model in v_models" :key="model.c_id" 
+                         class="flex items-center p-3 bg-white/10 rounded-lg hover:bg-white/20 transition-colors">
+                        <!-- <input type="radio" :value="model.c_id" v-model="v_selected_model" class="mr-3 text-purple-500 focus:ring-purple-500"> -->
+                        <span class="text-white font-medium">{{ model.c_model }}</span>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -248,6 +248,7 @@
                                 <input type="number" 
                                        v-model.number="response.score" 
                                        min="1" max="5"
+                                       @input="f_on_score_input(response)"
                                        class="score-input w-16 p-2 bg-white/10 border border-white/20 rounded-lg text-white text-center focus:border-yellow-400 focus:ring-2 focus:ring-yellow-400/50">
                                 <span class="text-white/60 text-sm">/5</span>
                             </div>
