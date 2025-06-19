@@ -13,8 +13,9 @@ export async function prompt_bot_chat(url, temperature, model, messages) {
             })
         });
         const result = await response.json();
-        //console.log(result);
-
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${result.error}`);
+        }
         const content = result.message.content;
         const think_match = content.match(/<think>([\s\S]*?)<\/think>/);
         return {
@@ -52,8 +53,9 @@ export async function prompt_bot_generate(url, temperature, model, prompt) {
             })
         });
         const result = await response.json();
-        console.log(result);
-
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${result.error}`);
+        }
         const content = result.response;
         const think_match = content.match(/<think>([\s\S]*?)<\/think>/);
         return {

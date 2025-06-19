@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <span>{{ v_info }}</span>
+        <div>
+            <table>
+                <thead>
+                    <tr>
+                        <th v-for="(value, key) in v_categories[0]" :key="key">
+                            {{ key }}
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="(row, index) in v_categories" :key="index">
+                        <td v-for="(value, key) in row" :key="key">
+                            {{ value }}
+                        </td>
+                        <td @click="f_delete_category(row.c_id)">delete</td> <!-- delete button -->
+                    </tr>
+                </tbody>
+            </table>
+            <input v-model="v_input_category">
+            <button @click="f_create_category">+</button> <!-- add button -->
+        </div>
+        <div>
+            <table>
+                <thead>
+                    <tr>
+                        <th v-for="(value, key) in v_hub_sql[0]" :key="key">
+                            {{ key }}
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="(row, index) in v_hub_sql" :key="index">
+                        <td v-for="(value, key) in row" :key="key">
+                            {{ value }}
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <input v-model="v_input_hub_sql">
+            <button @click="f_run_hub_sql">submit</button>
+        </div>
+    </div>
+    </div>
+    <script src="assets/main.js" type="module"></script>
+</body>
+</html>

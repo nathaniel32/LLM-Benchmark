@@ -19,3 +19,13 @@ exports.get_all_categories = (req, res) => {
         res.json(rows);
     });
 };
+
+exports.delete_category = (req, res) => {
+    const { c_id } = req.params;
+    const sql = `DELETE FROM t_category WHERE c_id = ?`;
+    db.run(sql, [c_id], function(err) {
+        if (err) return res.status(400).json({ error: err.message });
+        if (this.changes === 0) return res.status(404).json({ error: `ID ${c_id} not found` });
+        res.json({ message: 'Category deleted successfully' });
+    });
+};

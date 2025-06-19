@@ -65,4 +65,40 @@ router.post('/model', modelController.create_model);
  */
 router.get('/model', modelController.get_all_models);
 
+/**
+ * @swagger
+ * /model/{c_id}:
+ *   delete:
+ *     summary: Delete model by ID
+ *     tags: [Model]
+ *     parameters:
+ *       - in: path
+ *         name: c_id
+ *         schema:
+ *           type: integer
+ *         required: true
+ *         description: model ID
+ *     responses:
+ *       200:
+ *         description: Model deleted successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *       404:
+ *         description: Model not found
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   example: Model not found
+ */
+router.delete('/model/:c_id', modelController.delete_model);
+
 module.exports = router;

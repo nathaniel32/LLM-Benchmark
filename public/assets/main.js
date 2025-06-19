@@ -24,7 +24,7 @@ new Vue({
             const model_res = await api_get_all_models();
             if (model_res.error){
                 this.v_info = model_res.message;
-                this.f_clear_info(5000);
+                this.f_clear_info(10000);
                 return;
             }else{
                 this.v_models = model_res.data;
@@ -32,7 +32,7 @@ new Vue({
             const new_categories = await api_get_all_categories();
             if (new_categories.error){
                 this.v_info = new_categories.message;
-                this.f_clear_info(5000);
+                this.f_clear_info(10000);
                 return;
             }else{
                 this.v_categories.option.push(...new_categories.data);
@@ -46,13 +46,13 @@ new Vue({
         async f_prompt() {
             if (this.v_content == '') {
                 this.v_info = "Fill the content in the box below!";
-                this.f_clear_info(5000);
+                this.f_clear_info(10000);
                 return;
             }
 
             if (this.v_categories.select == 0) {
                 this.v_info = "Fill the category in the box below!";
-                this.f_clear_info(5000);
+                this.f_clear_info(10000);
                 return;
             }
 
@@ -62,7 +62,7 @@ new Vue({
 
             if(this.v_models.length == 0){
                 this.v_info = "no ai models available";
-                this.f_clear_info(5000);
+                this.f_clear_info(10000);
                 this.v_processing = false;
                 return;
             }
@@ -88,7 +88,7 @@ new Vue({
 
                 if (response.error) {
                     this.v_info = response.message;
-                    this.f_clear_info(5000);
+                    this.f_clear_info(10000);
                     this.v_processing = false;
                     return;
                 }
@@ -114,7 +114,7 @@ new Vue({
             for (const response of this.v_responses) {
                 if (typeof response.score !== 'number') {
                     this.v_info = "Fill in all the scores in the box below!";
-                    this.f_clear_info(5000);
+                    this.f_clear_info(10000);
                     return;
                 }
             }
@@ -126,7 +126,7 @@ new Vue({
 
             if (input_res.error || !input_res.data.id){
                 this.v_info = input_res.message;
-                this.f_clear_info(5000);
+                this.f_clear_info(10000);
                 this.v_responses = [];
                 return;
             }
@@ -139,7 +139,7 @@ new Vue({
                 const output_res = await api_create_output(response.think, response.final, response.total_duration, response.load_duration, response.prompt_eval_count, response.prompt_eval_duration, response.eval_count, response.eval_duration, response.score, response.note, input_res.data.id, response.model);
                 if (output_res.error){
                     this.v_info = output_res.message;
-                    this.f_clear_info(5000);
+                    this.f_clear_info(10000);
                     return;
                 }else{
                     res_output.push(output_res.data);
@@ -149,12 +149,14 @@ new Vue({
             this.v_info = JSON.stringify(res_output, null, 2);
             this.f_clear_info(10000);
             this.v_content = "";
+            this.v_note = "";
             this.v_responses = [];
         },
         f_cancel_upload_data(){
             this.v_info = "canceled";
-            this.f_clear_info(5000);
+            this.f_clear_info(10000);
             this.v_content = "";
+            this.v_note = "";
             this.v_responses = [];
         },
         f_render_markdown(text) {

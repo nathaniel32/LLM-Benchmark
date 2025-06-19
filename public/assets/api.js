@@ -7,6 +7,9 @@ export async function api_get_all_categories() {
             }
         });
         const result = await response.json();
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${result.error}`);
+        }
         return {
             error: false,
             messages: "ok",
@@ -27,6 +30,9 @@ export async function api_get_all_models() {
             }
         });
         const result = await response.json();
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${result.error}`);
+        }
         return {
             error: false,
             messages: "ok",
@@ -57,10 +63,10 @@ export async function api_create_input(c_input, c_rule, c_temperature, c_note, t
                 t_category_id
             })
         });
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
         const result = await response.json();
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${result.error}`);
+        }
         return {
             error: false,
             messages: "ok",
@@ -108,10 +114,10 @@ export async function api_create_output(c_output_think, c_output_final, c_total_
                 t_model_id
             })
         });
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
         const result = await response.json();
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${result.error}`);
+        }
         return {
             error: false,
             messages: "ok",

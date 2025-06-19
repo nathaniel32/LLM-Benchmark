@@ -5,6 +5,7 @@ const categoryRoute = require('./routes/categoryRoute');
 const modelRoute = require('./routes/modelRoute');
 const inputRoute = require('./routes/inputRoute');
 const outputRoute = require('./routes/outputRoute');
+const hubRoute = require('./routes/hubRoute');
 
 const app = express();
 const PORT = 3000;
@@ -13,6 +14,7 @@ app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
+app.use('/', hubRoute);
 app.use('/', categoryRoute);
 app.use('/', modelRoute);
 app.use('/', inputRoute);

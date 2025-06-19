@@ -65,4 +65,40 @@ router.post('/category', categoryController.create_category);
  */
 router.get('/category', categoryController.get_all_categories);
 
+/**
+ * @swagger
+ * /category/{c_id}:
+ *   delete:
+ *     summary: Delete category by ID
+ *     tags: [Category]
+ *     parameters:
+ *       - in: path
+ *         name: c_id
+ *         schema:
+ *           type: integer
+ *         required: true
+ *         description: category ID
+ *     responses:
+ *       200:
+ *         description: Category deleted successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *       404:
+ *         description: Category not found
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   example: Category not found
+ */
+router.delete('/category/:c_id', categoryController.delete_category);
+
 module.exports = router;
