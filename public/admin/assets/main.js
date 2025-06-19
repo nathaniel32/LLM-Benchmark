@@ -53,6 +53,8 @@ join t_category on t_category.c_id = t_input.t_category_id`,
             this.v_input_category = '';
         },
         async f_delete_category(id){
+            const confirmed = confirm("Are you sure you want to delete this category?");
+            if (!confirmed) return;
             const delete_category_res = await api_delete_category(id);
             if(delete_category_res.error){
                 this.v_info = delete_category_res.message;
@@ -110,6 +112,8 @@ join t_category on t_category.c_id = t_input.t_category_id`,
             this.v_input_model = '';
         },
         async f_delete_model(id){
+            const confirmed = confirm("Are you sure you want to delete this model?");
+            if (!confirmed) return;
             const delete_model_res = await api_delete_model(id);
             if(delete_model_res.error){
                 this.v_info = delete_model_res.message;
@@ -130,6 +134,8 @@ join t_category on t_category.c_id = t_input.t_category_id`,
             this.v_inputs = get_inputs_res.data;
         },
         async f_delete_input(id){
+            const confirmed = confirm("Are you sure you want to delete this data?");
+            if (!confirmed) return;
             const delete_input_res = await api_delete_input(id);
             if(delete_input_res.error){
                 this.v_info = delete_input_res.message;
@@ -150,6 +156,8 @@ join t_category on t_category.c_id = t_input.t_category_id`,
             this.v_outputs = get_outputs_res.data;
         },
         async f_delete_output(id){
+            const confirmed = confirm("Are you sure you want to delete this data?");
+            if (!confirmed) return;
             const delete_output_res = await api_delete_output(id);
             if(delete_output_res.error){
                 this.v_info = delete_output_res.message;

@@ -127,7 +127,7 @@ new Vue({
             if (input_res.error || !input_res.data.id){
                 this.v_info = input_res.message;
                 this.f_clear_info(10000);
-                this.v_responses = [];
+                //this.v_responses = [];
                 return;
             }
 
@@ -155,8 +155,8 @@ new Vue({
         f_cancel_upload_data(){
             this.v_info = "canceled";
             this.f_clear_info(10000);
-            this.v_content = "";
-            this.v_note = "";
+            //this.v_content = "";
+            //this.v_note = "";
             this.v_responses = [];
         },
         f_render_markdown(text) {
