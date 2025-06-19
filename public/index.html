@@ -102,8 +102,7 @@
                 <div class="space-y-2">
                     <div v-for="model in v_models" :key="model.c_id" 
                          class="flex items-center p-3 bg-white/10 rounded-lg hover:bg-white/20 transition-colors">
-                        <input type="radio" :value="model.c_id" v-model="v_selected_model" 
-                               class="mr-3 text-purple-500 focus:ring-purple-500">
+                        <!-- <input type="radio" :value="model.c_id" v-model="v_selected_model" class="mr-3 text-purple-500 focus:ring-purple-500"> -->
                         <span class="text-white font-medium">{{ model.c_model }}</span>
                     </div>
                 </div>
@@ -117,7 +116,7 @@
                     </label>
                     <input v-model="v_url" 
                            placeholder="Enter API URL"
-                           :disabled="v_responses.length !== 0"
+                           :disabled="v_responses.length !== 0 || v_processing"
                            class="w-full p-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/60 focus:border-purple-400 focus:ring-2 focus:ring-purple-400/50 disabled:opacity-50 disabled:cursor-not-allowed">
                 </div>
 
@@ -129,7 +128,7 @@
                         <input type="range" 
                                v-model.number="v_temperature" 
                                min="0" max="2" step="0.1"
-                               :disabled="v_responses.length !== 0"
+                               :disabled="v_responses.length !== 0 || v_processing"
                                class="w-full h-2 bg-white/20 rounded-lg appearance-none cursor-pointer slider">
                         <div class="flex justify-between text-xs text-white/60 mt-1">
                             <span>Conservative</span>
@@ -144,7 +143,7 @@
                     </label>
                     <textarea v-model="v_rule" 
                               placeholder="Enter system rules or instructions"
-                              :disabled="v_responses.length !== 0"
+                              :disabled="v_responses.length !== 0 || v_processing"
                               class="w-full p-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/60 focus:border-purple-400 focus:ring-2 focus:ring-purple-400/50 disabled:opacity-50 resize-none h-24"></textarea>
                 </div>
 
@@ -154,7 +153,7 @@
                     </label>
                     <textarea v-model="v_content" 
                               placeholder="Enter your prompt or content"
-                              :disabled="v_responses.length !== 0"
+                              :disabled="v_responses.length !== 0 || v_processing"
                               class="w-full p-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/60 focus:border-purple-400 focus:ring-2 focus:ring-purple-400/50 disabled:opacity-50 resize-none h-32"></textarea>
                 </div>
 
@@ -165,7 +164,7 @@
                         </label>
                         <input type="text" 
                                v-model="v_note"
-                               :disabled="v_responses.length !== 0"
+                               :disabled="v_responses.length !== 0 || v_processing"
                                class="w-full p-3 bg-white/10 border border-white/20 rounded-lg text-white focus:border-purple-400 focus:ring-2 focus:ring-purple-400/50 disabled:opacity-50">
                     </div>
 
@@ -174,7 +173,7 @@
                             <i class="fas fa-tags mr-2"></i>Category
                         </label>
                         <select v-model="v_categories.select" 
-                                :disabled="v_responses.length !== 0"
+                                :disabled="v_responses.length !== 0 || v_processing"
                                 class="w-full p-3 bg-white/10 border border-white/20 rounded-lg text-white focus:border-purple-400 focus:ring-2 focus:ring-purple-400/50 disabled:opacity-50">
                             <option value="" class="bg-gray-800">Select Category</option>
                             <option v-for="category in v_categories.option" 
@@ -203,7 +202,7 @@
                     <i class="fas fa-chart-line mr-2"></i>
                     Results ({{ v_responses.length }})
                 </h2>
-                <div class="space-x-3" v-if="v_responses.length > 0">
+                <div class="space-x-3" v-if="v_responses.length > 0 && !v_processing">
                     <button @click="f_upload_data" 
                             class="px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors shadow-lg">
                         <i class="fas fa-upload mr-2"></i>Upload Data
