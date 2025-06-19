@@ -486,6 +486,7 @@ SELECT * FROM t_output;"
                                                 v-for="(value, key) in v_hub_sql[0]" 
                                                 :key="key"
                                                 class="px-4 py-3 text-left text-white font-bold uppercase text-xs tracking-wider"
+                                                style="max-width: 300px; max-height: 60px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"
                                             >
                                                 {{ key.replace('c_', '').replace('_', ' ') }}
                                             </th>
@@ -501,6 +502,7 @@ SELECT * FROM t_output;"
                                                 v-for="(value, key) in row" 
                                                 :key="key"
                                                 class="px-4 py-3 text-white"
+                                                style="max-width: 300px; max-height: 60px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"
                                             >
                                                 {{ value }}
                                             </td>
