@@ -12,16 +12,22 @@ cd LLM-Benchmark
 ````
 ### with Docker
 
-#### 1. Build
+#### 1. Build the image
 
 ```bash
 docker build -t llm-benchmark .
 ```
 
-#### 2. Run
+#### 2. Run the container (first time)
 
 ```bash
-docker run -p 5000:5000 llm-benchmark
+docker run --name benchmark-app -p 5000:5000 llm-benchmark
+```
+
+#### 3. Start the container (after it was stopped or exited)
+
+```bash
+docker start benchmark-app
 ```
 
 ### without Docker
