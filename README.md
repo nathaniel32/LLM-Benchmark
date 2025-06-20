@@ -10,26 +10,29 @@ Follow these steps to set up and run the server:
 git clone https://github.com/nathaniel32/LLM-Benchmark.git
 cd LLM-Benchmark
 ````
+### with Docker
 
-### 2. Build and Run with Docker
+#### 1. Build
 
 ```bash
 docker build -t llm-benchmark .
 ```
 
+#### 2. Run
+
 ```bash
 docker run -p 5000:5000 llm-benchmark
 ```
 
-*or*
+### without Docker
 
-### 3. Install Dependencies (without Docker)
+#### 1. Install Dependencies
 
 ```bash
 npm install
 ```
 
-### 4. Start the Server
+#### 2. Start the Server
 
 ```bash
 npm start
