@@ -15,6 +15,9 @@ cd LLM-Benchmark
 
 ```bash
 docker build -t llm-benchmark .
+```
+
+```bash
 docker run -p 5000:5000 llm-benchmark
 ```
 
