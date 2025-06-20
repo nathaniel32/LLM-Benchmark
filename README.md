@@ -21,7 +21,7 @@ docker build -t llm-benchmark .
 #### 2. Run the container (first time)
 
 ```bash
-docker run --name benchmark-app -p 5000:5000 llm-benchmark
+docker run --name benchmark-app -p 5000:3000 llm-benchmark
 ```
 
 #### 3. Start the container (after it was stopped or exited)
@@ -29,6 +29,8 @@ docker run --name benchmark-app -p 5000:5000 llm-benchmark
 ```bash
 docker start benchmark-app
 ```
+
+The server will start on `http://localhost:5000`.
 
 ### without Docker
 
@@ -44,7 +46,7 @@ npm install
 npm start
 ```
 
-The server will start on `http://localhost:5000`.
+The server will start on `http://localhost:3000`.
 
 ## Data Control
 
