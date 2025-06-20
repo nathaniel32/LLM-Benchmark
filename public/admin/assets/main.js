@@ -17,6 +17,7 @@ join t_category on t_category.c_id = t_input.t_category_id`,
         v_input_model: '',
         v_inputs: [],
         v_outputs: [],
+        expandedKeys: []
     },
     methods:{
         f_init(){
@@ -30,6 +31,32 @@ join t_category on t_category.c_id = t_input.t_category_id`,
             setTimeout(()=>{
                 this.v_info = "";
             }, duration);
+        },
+        f_get_th_style(key){
+            if (this.expandedKeys.includes(key)) {
+                return {
+                    maxWidth: 'none',
+                    maxHeight: 'none',
+                    whiteSpace: 'normal',
+                    overflow: 'visible',
+                    textOverflow: 'unset'
+                };
+            } else {
+                return {
+                    maxWidth: '300px',
+                    maxHeight: '60px',
+                    whiteSpace: 'nowrap',
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis'
+                };
+            }
+        },
+        toggle_key(key){
+            if (this.expandedKeys.includes(key)) {
+                this.expandedKeys = this.expandedKeys.filter(k => k !== key);
+            } else {
+                this.expandedKeys.push(key);
+            }
         },
 
         // --- Category ---
