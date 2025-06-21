@@ -2,7 +2,7 @@ import { api_get_hub_sql_schema, api_create_category, api_delete_category, api_g
 new Vue({
     el: '#app',
     data: {
-        v_active_section: 'categories',
+        v_active_section: 'outputs',
         v_info: '',
         v_categories: [],
         v_input_category: '',
@@ -19,6 +19,29 @@ join t_category on t_category.c_id = t_input.t_category_id`,
         v_outputs: [],
         expandedKeys: []
     },
+    updated() {
+        this.$nextTick(() => {
+            this.render_latex();
+        });
+    },
+    /* watch: {
+        v_hub_sql: {
+            handler() {
+                this.$nextTick(() => {
+                    this.render_latex();
+                });
+            },
+            deep: true,
+        },
+        v_active_section: {
+            handler() {
+                this.$nextTick(() => {
+                    this.render_latex();
+                });
+            },
+            deep: true,
+        }
+    }, */
     methods:{
         f_init(){
             this.f_display_categories();
@@ -58,11 +81,15 @@ join t_category on t_category.c_id = t_input.t_category_id`,
                 this.expandedKeys.push(key);
             }
         },
+        render_latex() {
+            console.log('render_latex() dipanggil sekali setelah render selesai');
+            MathJax.typeset();
+        },
         f_render_markdown(text) {
             if (typeof text !== 'string') return text;
-            setTimeout(()=>{
+            /* setTimeout(()=>{
                 MathJax.typeset();
-            },0);
+            },0); */
             return marked.parse(text);
         },
         // --- Category ---
