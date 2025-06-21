@@ -1,15 +1,22 @@
 export async function prompt_bot_chat(url, temperature, model, messages) {
     try {
-        const response = await fetch(url.trim()+'/api/chat', {
+        const response = await fetch('/proxy', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                model: model,
-                messages: messages,
-                stream: false,
-                options: {'temperature': temperature}
+                url: url.trim()+'/api/chat',
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: {
+                    model: model,
+                    messages: messages,
+                    stream: false,
+                    options: {'temperature': temperature}
+                }
             })
         });
         const result = await response.json();
@@ -40,16 +47,23 @@ export async function prompt_bot_chat(url, temperature, model, messages) {
 
 export async function prompt_bot_generate(url, temperature, model, prompt) {
     try {
-        const response = await fetch(url.trim()+'/api/generate', {
+        const response = await fetch('/proxy', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                model: model,
-                prompt: prompt,
-                stream: false,
-                options: {'temperature': temperature}
+                url: url.trim()+'/api/generate',
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: {
+                    model: model,
+                    prompt: prompt,
+                    stream: false,
+                    options: {'temperature': temperature}
+                }
             })
         });
         const result = await response.json();

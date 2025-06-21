@@ -68,6 +68,7 @@ http://localhost:5000/api-docs
 npm install sqlite3
 npm install express
 npm install swagger-ui-express swagger-jsdoc
+npm install node-fetch@2
 
 erwan2/DeepSeek-R1-Distill-Qwen-1.5B:latest
 erwan2/DeepSeek-R1-Distill-Qwen-7B:latest
