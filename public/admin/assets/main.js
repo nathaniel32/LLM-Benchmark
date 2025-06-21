@@ -227,7 +227,7 @@ join t_category on t_category.c_id = t_input.t_category_id`,
             this.f_display_outputs();
         },
     },
-    created() {
+    mounted() {
         this.f_init();
     }
 });

@@ -12,7 +12,7 @@
     <script>
         window.MathJax = {
             tex: {
-                inlineMath: [['\\(', '\\)'], ['[', ']'], ['(', ')']],  // tambahkan ['(', ')']
+                inlineMath: [['\\(', '\\)'], ['[', ']'], ['(', ')']],
                 displayMath: [['\\[', '\\]'], ['[', ']']],
                 packages: {'[+]': ['ams']},
             },
@@ -277,7 +277,7 @@
                                                 class="px-6 py-4 text-left text-white font-bold uppercase text-sm tracking-wider"
                                                 :style="f_get_th_style(key)" @click="toggle_key(key)"
                                             >
-                                                {{ key.replace('c_', '').replace('_', ' ') }}
+                                                <span class="no-mathjax">{{ key.replace('c_', '').replace('_', ' ') }}</span>
                                             </th>
                                             <th class="px-6 py-4 text-center text-white font-bold uppercase text-sm tracking-wider">
                                                 Actions
@@ -383,7 +383,7 @@
                                                 class="px-6 py-4 text-left text-white font-bold uppercase text-sm tracking-wider"
                                                 :style="f_get_th_style(key)" @click="toggle_key(key)"
                                             >
-                                                {{ key.replace('c_', '').replace('_', ' ') }}
+                                                <span class="no-mathjax">{{ key.replace('c_', '').replace('_', ' ') }}</span>
                                             </th>
                                             <th class="px-6 py-4 text-center text-white font-bold uppercase text-sm tracking-wider">
                                                 Actions
@@ -466,7 +466,7 @@
                                                 class="px-6 py-4 text-left text-white font-bold uppercase text-sm tracking-wider"
                                                 :style="f_get_th_style(key)" @click="toggle_key(key)"
                                             >
-                                                {{ key.replace('c_', '').replace('_', ' ') }}
+                                                <span class="no-mathjax">{{ key.replace('c_', '').replace('_', ' ') }}</span>
                                             </th>
                                             <th class="px-6 py-4 text-center text-white font-bold uppercase text-sm tracking-wider">
                                                 Actions
@@ -549,7 +549,7 @@
                                                 class="px-6 py-4 text-left text-white font-bold uppercase text-sm tracking-wider"
                                                 :style="f_get_th_style(key)" @click="toggle_key(key)"
                                             >
-                                                {{ key.replace('c_', '').replace('_', ' ') }}
+                                                <span class="no-mathjax">{{ key.replace('c_', '').replace('_', ' ') }}</span>
                                             </th>
                                             <th class="px-6 py-4 text-center text-white font-bold uppercase text-sm tracking-wider">
                                                 Actions
@@ -693,7 +693,7 @@ SELECT * FROM t_output;"
                                                 class="px-4 py-3 text-left text-white font-bold uppercase text-xs tracking-wider"
                                                 :style="f_get_th_style(key)" @click="toggle_key(key)"
                                             >
-                                                {{ key.replace('c_', '').replace('_', ' ') }}
+                                                <span class="no-mathjax">{{ key.replace('c_', '').replace('_', ' ') }}</span>
                                             </th>
                                         </tr>
                                     </thead>

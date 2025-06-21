@@ -43,6 +43,13 @@ new Vue({
                 this.v_info = "";
             }, duration);
         },
+        /* shuffle_array(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }, */
         async f_prompt() {
             if (this.v_content == '') {
                 this.v_info = "Fill the content in the box below!";
@@ -66,6 +73,8 @@ new Vue({
                 this.v_processing = false;
                 return;
             }
+
+            //const models_shuffled = this.shuffle_array([...this.v_models]);
 
             for (const model of this.v_models) {
                 let response;
@@ -95,6 +104,7 @@ new Vue({
 
                 this.v_responses.push({
                     model: model.c_id,
+                    model_name: model.c_model,
                     think: response.data.think,
                     final: response.data.final,
                     total_duration: response.data.total_duration,
@@ -102,8 +112,10 @@ new Vue({
                     prompt_eval_count: response.data.prompt_eval_count,
                     prompt_eval_duration: response.data.prompt_eval_duration,
                     eval_count: response.data.eval_count,
-                    eval_duration: response.data.eval_duration
+                    eval_duration: response.data.eval_duration,
+                    show_full_thinking: false
                 });
+                console.log(model.c_model);
             }
 
             this.f_clear_info(0);
@@ -171,7 +183,7 @@ new Vue({
             else if (value < 1) response.score = 1
         }
     },
-    created() {
+    mounted() {
         this.f_init();
     }
 });
