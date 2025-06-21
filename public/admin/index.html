@@ -8,10 +8,27 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
     <script src="https://cdn.tailwindcss.com"></script>
     <title>Database Management Workbench</title>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['\\(', '\\)'], ['[', ']'], ['(', ')']],  // tambahkan ['(', ')']
+                displayMath: [['\\[', '\\]'], ['[', ']']],
+                packages: {'[+]': ['ams']},
+            },
+            options: {
+                skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+                ignoreHtmlClass: 'no-mathjax',
+            }
+        };
+    </script>
     <style>
+        td{
+            border: 1px solid hsla(0, 0%, 13%, 0.761);
+        }
         thead{
             z-index: 1000;
-            background-color: 	hsl(215, 14%, 20%);
+            background-color:hsl(214, 14%, 20%);
         }
         .glass-effect {
             background: rgba(255, 255, 255, 0.08);
@@ -278,9 +295,8 @@
                                                 :key="key"
                                                 class="px-6 py-4 text-white text-lg"
                                                 :style="f_get_th_style(key)" @click="toggle_key(key)"
-                                            >
-                                                {{ value }}
-                                            </td>
+                                                v-html="f_render_markdown(value)"
+                                            ></td>
                                             <td class="px-6 py-4 text-center">
                                                 <button 
                                                     @click="f_delete_category(row.c_id || index)"
@@ -385,9 +401,8 @@
                                                 :key="key"
                                                 class="px-6 py-4 text-white text-lg"
                                                 :style="f_get_th_style(key)" @click="toggle_key(key)"
-                                            >
-                                                {{ value }}
-                                            </td>
+                                                v-html="f_render_markdown(value)"
+                                            ></td>
                                             <td class="px-6 py-4 text-center">
                                                 <button 
                                                     @click="f_delete_model(row.c_id || index)"
@@ -469,9 +484,8 @@
                                                 :key="key"
                                                 class="px-6 py-4 text-white text-lg"
                                                 :style="f_get_th_style(key)" @click="toggle_key(key)"
-                                            >
-                                                {{ value }}
-                                            </td>
+                                                v-html="f_render_markdown(value)"
+                                            ></td>
                                             <td class="px-6 py-4 text-center">
                                                 <button 
                                                     @click="f_delete_input(row.c_id || index)"
@@ -553,9 +567,8 @@
                                                 :key="key"
                                                 class="px-6 py-4 text-white text-lg"
                                                 :style="f_get_th_style(key)" @click="toggle_key(key)"
-                                            >
-                                                {{ value }}
-                                            </td>
+                                                v-html="f_render_markdown(value)"
+                                            ></td>
                                             <td class="px-6 py-4 text-center">
                                                 <button 
                                                     @click="f_delete_output(row.c_id || index)"
@@ -695,9 +708,8 @@ SELECT * FROM t_output;"
                                                 :key="key"
                                                 class="px-4 py-3 text-white"
                                                 :style="f_get_th_style(key)" @click="toggle_key(key)"
-                                            >
-                                                {{ value }}
-                                            </td>
+                                                v-html="f_render_markdown(value)"
+                                            ></td>
                                         </tr>
                                     </tbody>
                                 </table>

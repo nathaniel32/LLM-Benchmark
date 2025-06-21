@@ -160,6 +160,9 @@ new Vue({
             this.v_responses = [];
         },
         f_render_markdown(text) {
+            setTimeout(()=>{
+                MathJax.typeset();
+            },0);
             return marked.parse(text);
         },
         f_on_score_input(response){

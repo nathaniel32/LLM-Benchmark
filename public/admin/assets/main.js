@@ -58,7 +58,13 @@ join t_category on t_category.c_id = t_input.t_category_id`,
                 this.expandedKeys.push(key);
             }
         },
-
+        f_render_markdown(text) {
+            if (typeof text !== 'string') return text;
+            setTimeout(()=>{
+                MathJax.typeset();
+            },0);
+            return marked.parse(text);
+        },
         // --- Category ---
         async f_display_categories(){
             const get_categories_res = await api_get_all_categories();
