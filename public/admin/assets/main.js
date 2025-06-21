@@ -203,6 +203,7 @@ join t_category on t_category.c_id = t_input.t_category_id`,
                 return;
             }
             this.f_display_inputs();
+            this.f_display_outputs();
         },
         
         // --- Output ---
