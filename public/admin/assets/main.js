@@ -7,11 +7,11 @@ new Vue({
         v_categories: [],
         v_input_category: '',
         v_hub_sql: [],
-        v_input_hub_sql: `select c_input, t_output.c_output_final, c_score, c_model, c_category
-from t_output
-join t_input on t_input.c_id = t_output.t_input_id 
-join t_model on t_model.c_id = t_output.t_model_id
-join t_category on t_category.c_id = t_input.t_category_id`,
+        v_input_hub_sql: `SELECT c_input, t_output.c_output_final, c_score, c_model, c_category
+FROM t_output
+JOIN t_input ON t_input.c_id = t_output.t_input_id 
+JOIN t_model ON t_model.c_id = t_output.t_model_id
+JOIN t_category ON t_category.c_id = t_input.t_category_id`,
         v_hub_sql_schema: '',
         v_show_schema: '',
         v_models: [],
