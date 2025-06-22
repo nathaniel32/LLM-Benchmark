@@ -45,7 +45,7 @@ router.get('/schema', hubController.get_hub_sql_schema);
  * /proxy:
  *   post:
  *     summary: Dynamic proxy endpoint to forward requests
- *     tags: [Proxy]
+ *     tags: [Hub]
  *     requestBody:
  *       required: true
  *       content:
