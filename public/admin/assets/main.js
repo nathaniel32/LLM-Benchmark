@@ -20,9 +20,9 @@ join t_category on t_category.c_id = t_input.t_category_id`,
         expandedKeys: []
     },
     updated() {
-        this.$nextTick(() => {
+        /* this.$nextTick(() => {
             this.render_latex();
-        });
+        }); */
     },
     /* watch: {
         v_hub_sql: {
@@ -74,23 +74,29 @@ join t_category on t_category.c_id = t_input.t_category_id`,
                 };
             }
         },
-        toggle_key(key){
+        toggle_key(key, event=null){
+
             if (this.expandedKeys.includes(key)) {
                 this.expandedKeys = this.expandedKeys.filter(k => k !== key);
             } else {
+                if(event){
+                    this.render_latex(event.currentTarget);
+                }
                 this.expandedKeys.push(key);
             }
         },
-        render_latex() {
-            console.log('render_latex() dipanggil sekali setelah render selesai');
-            MathJax.typeset();
+        render_latex(element) {
+            setTimeout(() => {
+                MathJax.typesetPromise([element]).catch((err) => console.log(err.message));
+            }, 0);
         },
         f_render_markdown(text) {
-            if (typeof text !== 'string') return text;
-            /* setTimeout(()=>{
-                MathJax.typeset();
-            },0); */
-            return marked.parse(text);
+            if (this.expandedKeys.includes(text)) {
+                if (typeof text !== 'string') return text;
+                return marked.parse(text);
+            } else {
+                return text;
+            }
         },
         // --- Category ---
         async f_display_categories(){

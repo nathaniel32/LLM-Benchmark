@@ -294,7 +294,7 @@
                                                 v-for="(value, key) in row" 
                                                 :key="key"
                                                 class="px-6 py-4 text-white text-lg"
-                                                :style="f_get_th_style(key)" @click="toggle_key(key)"
+                                                :style="f_get_th_style(value)" @click="toggle_key(value, $event)"
                                                 v-html="f_render_markdown(value)"
                                             ></td>
                                             <td class="px-6 py-4 text-center">
@@ -400,7 +400,7 @@
                                                 v-for="(value, key) in row" 
                                                 :key="key"
                                                 class="px-6 py-4 text-white text-lg"
-                                                :style="f_get_th_style(key)" @click="toggle_key(key)"
+                                                :style="f_get_th_style(value)" @click="toggle_key(value, $event)"
                                                 v-html="f_render_markdown(value)"
                                             ></td>
                                             <td class="px-6 py-4 text-center">
@@ -483,7 +483,7 @@
                                                 v-for="(value, key) in row" 
                                                 :key="key"
                                                 class="px-6 py-4 text-white text-lg"
-                                                :style="f_get_th_style(key)" @click="toggle_key(key)"
+                                                :style="f_get_th_style(value)" @click="toggle_key(value, $event)"
                                                 v-html="f_render_markdown(value)"
                                             ></td>
                                             <td class="px-6 py-4 text-center">
@@ -566,7 +566,7 @@
                                                 v-for="(value, key) in row" 
                                                 :key="key"
                                                 class="px-6 py-4 text-white text-lg"
-                                                :style="f_get_th_style(key)" @click="toggle_key(key)"
+                                                :style="f_get_th_style(value)" @click="toggle_key(value, $event)"
                                                 v-html="f_render_markdown(value)"
                                             ></td>
                                             <td class="px-6 py-4 text-center">
@@ -707,7 +707,7 @@ SELECT * FROM t_output;"
                                                 v-for="(value, key) in row" 
                                                 :key="key"
                                                 class="px-4 py-3 text-white"
-                                                :style="f_get_th_style(key)" @click="toggle_key(key)"
+                                                :style="f_get_th_style(value)" @click="toggle_key(value, $event)"
                                                 v-html="f_render_markdown(value)"
                                             ></td>
                                         </tr>
