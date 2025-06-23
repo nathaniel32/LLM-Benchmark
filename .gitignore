@@ -1,4 +1,4 @@
 node_modules/
 package-lock.json
 assets/database.db
-analyse/plot
+analyse/assets
